@@ -157,6 +157,7 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity .25s ease;
+      z-index: 1;
     }
 
     .tilt-card:hover .tilt-glow {
@@ -186,6 +187,7 @@
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events: none;
+      z-index: 3;
     }
 
     .link-card:hover .link-arrow {
@@ -199,7 +201,7 @@
     }
 
     .profile-spin-wrap.is-spinning {
-      animation: profileSpin 13s linear infinite !important;
+      animation: profileSpin 10s linear infinite !important;
     }
 
     .profile-spin-wrap.is-spinning img {
@@ -219,16 +221,76 @@
       }
     }
 
+    .music-notes-layer {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .music-note {
+      position: absolute;
+      top: 34%;
+      left: 50%;
+      display: inline-block;
+      font-size: 22px;
+      line-height: 1;
+      color: rgba(255, 255, 255, .95);
+      text-shadow:
+        0 0 10px rgba(129, 140, 248, .9),
+        0 0 24px rgba(168, 85, 247, .65),
+        0 0 42px rgba(99, 102, 241, .35);
+      opacity: 0;
+      user-select: none;
+      will-change: transform, opacity;
+      animation: floatMusicNote 3s ease-out forwards !important;
+    }
+
+    @keyframes floatMusicNote {
+      0% {
+        opacity: 0;
+        transform:
+          translate3d(0, 0, 0)
+          scale(.75)
+          rotate(0deg);
+      }
+
+      12% {
+        opacity: 1;
+      }
+
+      70% {
+        opacity: .95;
+      }
+
+      100% {
+        opacity: 0;
+        transform:
+          translate3d(var(--note-x, 0px), -150px, 0)
+          scale(1.35)
+          rotate(var(--note-rotate, 15deg));
+      }
+    }
+
     @media (max-width: 768px) {
       main {
         width: min(100%, 26rem);
       }
+
+      .music-note {
+        top: 36%;
+        font-size: 20px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
+      body,
+      body::before,
+      body::after,
+      .particle,
+      .tilt-card,
+      .tilt-inner {
         animation: none !important;
         transition: none !important;
         scroll-behavior: auto !important;
@@ -255,6 +317,7 @@
       aria-label="Profil dan tautan Yuuzaann"
     >
       <div class="tilt-glow"></div>
+      <div id="musicNotes" class="music-notes-layer" aria-hidden="true"></div>
 
       <div class="tilt-inner relative z-10">
         <div
@@ -462,10 +525,12 @@
     const prevBtn = document.getElementById("prevMusic");
     const nextBtn = document.getElementById("nextMusic");
     const profileSpinWrap = document.getElementById("profileSpinWrap");
+    const musicNotes = document.getElementById("musicNotes");
 
     let isPlaying = false;
     let trackIndex = 0;
     let playlist = [];
+    let musicNotesInterval = null;
 
     function setMusicControlsState(enabled) {
       musicBtn.disabled = !enabled;
@@ -479,13 +544,71 @@
         : "fa-solid fa-play text-sm";
     }
 
+    function createMusicNote() {
+      if (!musicNotes) return;
+
+      const note = document.createElement("span");
+      const symbols = ["♪", "♫", "♬", "♩", "♭"];
+
+      const startLeft = Math.random() * 64 + 18;
+      const driftX = Math.random() * 120 - 60;
+      const rotate = `${Math.random() * 50 - 25}deg`;
+      const size = `${Math.random() * 10 + 18}px`;
+
+      note.className = "music-note";
+      note.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      note.style.left = `${startLeft}%`;
+      note.style.fontSize = size;
+      note.style.setProperty("--note-x", `${driftX}px`);
+      note.style.setProperty("--note-rotate", rotate);
+
+      musicNotes.appendChild(note);
+
+      note.addEventListener("animationend", () => {
+        note.remove();
+      });
+    }
+
+    function startMusicNotes() {
+      if (!musicNotes || musicNotesInterval) return;
+
+      createMusicNote();
+      createMusicNote();
+      createMusicNote();
+
+      musicNotesInterval = setInterval(() => {
+        if (isPlaying) {
+          createMusicNote();
+        }
+      }, 300);
+    }
+
+    function stopMusicNotes() {
+      if (musicNotesInterval) {
+        clearInterval(musicNotesInterval);
+        musicNotesInterval = null;
+      }
+
+      setTimeout(() => {
+        if (!isPlaying && musicNotes) {
+          musicNotes.innerHTML = "";
+        }
+      }, 500);
+    }
+
     function updateProfileSpin() {
-      if (!profileSpinWrap) return;
+      if (profileSpinWrap) {
+        if (isPlaying) {
+          profileSpinWrap.classList.add("is-spinning");
+        } else {
+          profileSpinWrap.classList.remove("is-spinning");
+        }
+      }
 
       if (isPlaying) {
-        profileSpinWrap.classList.add("is-spinning");
+        startMusicNotes();
       } else {
-        profileSpinWrap.classList.remove("is-spinning");
+        stopMusicNotes();
       }
     }
 
