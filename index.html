@@ -1,327 +1,650 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="https://raw.githubusercontent.com/Yuuzaann/Arya-Portofolio/main/assets/icon.png">
-<title>Linktree - Yuuzaann</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Linktree personal Yuuzaann - portfolio, social media, support, dan Discord." />
+  <meta name="theme-color" content="#020617" />
 
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" href="https://raw.githubusercontent.com/Yuuzaann/Arya-Portofolio/main/assets/icon.png" />
+  <title>Linktree - Yuuzaann</title>
 
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: { poppins: ['Poppins', 'sans-serif'] },
-      animation: {
-        gradient: "gradient 15s ease infinite",
-        float: "float 4s ease-in-out infinite",
-        glow: "glow 2s ease-in-out infinite alternate",
-        spinSlow: "spin 50s linear infinite"
-      },
-      keyframes: {
-        gradient: { "0%,100%": {backgroundPosition:"0% 50%"}, "50%": {backgroundPosition:"100% 50%"} },
-        float: { "0%,100%": {transform:"translateY(0px)"}, "50%": {transform:"translateY(-5px)"} },
-        glow: { "0%": {boxShadow:"0 0 10px rgba(99,102,241,.35)"}, "100%": {boxShadow:"0 0 22px rgba(99,102,241,.7)"} },
-        spinSlow: { "0%": {transform:"rotate(0deg)"}, "100%": {transform:"rotate(360deg)"} }
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            poppins: ["Poppins", "sans-serif"]
+          },
+          animation: {
+            gradient: "gradient 16s ease infinite",
+            pulseSoft: "pulseSoft 2.8s ease-in-out infinite",
+            orbit: "orbit 38s linear infinite"
+          },
+          keyframes: {
+            gradient: {
+              "0%, 100%": { backgroundPosition: "0% 50%" },
+              "50%": { backgroundPosition: "100% 50%" }
+            },
+            pulseSoft: {
+              "0%, 100%": { opacity: ".55", transform: "scale(1)" },
+              "50%": { opacity: "1", transform: "scale(1.04)" }
+            },
+            orbit: {
+              "0%": { transform: "rotate(0deg)" },
+              "100%": { transform: "rotate(360deg)" }
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background-size: 320% 320%;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(100%, 36rem);
+      margin-inline: auto;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 9999px;
+      filter: blur(70px);
+      opacity: .35;
+      pointer-events: none;
+      z-index: -30;
+    }
+
+    body::before {
+      width: 280px;
+      height: 280px;
+      top: -80px;
+      left: -60px;
+      background: #6366f1;
+    }
+
+    body::after {
+      width: 320px;
+      height: 320px;
+      right: -90px;
+      bottom: -90px;
+      background: #a855f7;
+    }
+
+    a,
+    button {
+      transition:
+        transform .25s ease,
+        background .25s ease,
+        border-color .25s ease,
+        color .25s ease,
+        opacity .25s ease;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: .45;
+    }
+
+    .noise-layer {
+      position: fixed;
+      inset: 0;
+      z-index: -25;
+      pointer-events: none;
+      opacity: .13;
+      background-image: radial-gradient(rgba(255,255,255,.32) 1px, transparent 1px);
+      background-size: 22px 22px;
+      mask-image: linear-gradient(to bottom, black, transparent 88%);
+    }
+
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 9999px;
+      background: rgba(255,255,255,.34);
+      box-shadow: 0 0 14px rgba(129,140,248,.55);
+      pointer-events: none;
+    }
+
+    .tilt-card {
+      transform: none !important;
+      transform-origin: center center;
+      transition: box-shadow .3s ease, border-color .3s ease;
+    }
+
+    .tilt-inner {
+      transform: none;
+    }
+
+    .tilt-glow {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        circle at var(--glow-x, 50%) var(--glow-y, 50%),
+        rgba(129,140,248,.24),
+        transparent 48%
+      );
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+
+    .tilt-card:hover .tilt-glow {
+      opacity: 1;
+    }
+
+    .glass-border {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-border::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,.34),
+        rgba(129,140,248,.26),
+        rgba(255,255,255,.06)
+      );
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .link-card:hover .link-arrow {
+      transform: translate(2px, -2px);
+      color: white;
+    }
+
+    .profile-spin-wrap {
+      transform-origin: center center;
+      will-change: transform;
+    }
+
+    .profile-spin-wrap.is-spinning {
+      animation: profileSpin 13s linear infinite !important;
+    }
+
+    .profile-spin-wrap.is-spinning img {
+      box-shadow:
+        0 0 28px rgba(129, 140, 248, .55),
+        0 0 60px rgba(168, 85, 247, .25);
+      filter: saturate(1.15);
+    }
+
+    @keyframes profileSpin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
       }
     }
-  }
-}
-</script>
 
-<style>
-body {
-  background-size: 300% 300%;
-  transition: background 0.5s ease;
-  overflow-x:hidden;
-  perspective: 1400px;
-}
+    @media (max-width: 768px) {
+      main {
+        width: min(100%, 26rem);
+      }
+    }
 
-.particle {
-  position:absolute;
-  border-radius:50%;
-  background:rgba(255,255,255,0.3);
-  pointer-events:none;
-}
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
 
-a, button { transition: all 0.3s ease; }
-
-.tilt-card {
-  transform-style: preserve-3d;
-  transition: transform 0.15s ease-out, box-shadow 0.3s ease;
-  will-change: transform;
-}
-
-.tilt-inner {
-  transform: translateZ(60px);
-}
-
-.tilt-glow {
-  position: absolute;
-  inset: 0;
-  border-radius: 1.5rem;
-  background: radial-gradient(circle at center, rgba(99,102,241,0.25), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.tilt-card:hover .tilt-glow {
-  opacity: 1;
-}
-
-.tilt-card::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:inherit;
-  background:linear-gradient(120deg,rgba(255,255,255,0.08),transparent);
-  pointer-events:none;
-  mix-blend-mode:overlay;
-}
-
-@media (max-width:768px){
-  body{ perspective:2000px; }
-}
-</style>
+      .tilt-card,
+      .tilt-inner {
+        transform: none !important;
+      }
+    }
+  </style>
 </head>
 
-<body class="min-h-screen flex items-center justify-center font-poppins text-white
-bg-gradient-to-br from-indigo-950 via-slate-900 to-black animate-gradient px-4 py-10">
+<body class="min-h-[100dvh] grid place-items-center px-4 py-8 sm:px-6 sm:py-10 font-poppins text-white bg-gradient-to-br from-indigo-950 via-slate-950 to-black animate-gradient">
+  <div class="noise-layer"></div>
+  <div id="particles" class="absolute inset-0 -z-20 overflow-hidden" aria-hidden="true"></div>
 
-<div id="particles" class="absolute inset-0 -z-20 overflow-hidden"></div>
-<audio id="bgMusic" preload="none"></audio>
+  <audio id="bgMusic" preload="none"></audio>
 
-<div id="tiltCard"
-class="tilt-card relative w-full max-w-lg rounded-3xl p-6 sm:p-8
-bg-white/10 backdrop-blur-2xl border border-white/15 shadow-2xl text-center
-hover:scale-[1.01] transition-transform duration-300">
+  <main class="mx-auto flex items-center justify-center">
+    <section
+      id="tiltCard"
+      class="tilt-card glass-border relative mx-auto w-full rounded-[1.6rem] sm:rounded-[2rem] bg-white/[0.085] backdrop-blur-2xl shadow-2xl shadow-black/40 border border-white/10 p-4 xs:p-5 sm:p-7 text-center"
+      aria-label="Profil dan tautan Yuuzaann"
+    >
+      <div class="tilt-glow"></div>
 
-<div class="tilt-glow"></div>
-<div class="tilt-inner">
+      <div class="tilt-inner relative z-10">
+        <div
+          class="absolute right-0 top-0 flex items-center gap-1.5 sm:gap-2 rounded-full border border-white/10 bg-black/20 p-1 sm:p-1.5 backdrop-blur-xl"
+          aria-label="Kontrol musik"
+        >
+          <button
+            id="prevMusic"
+            type="button"
+            aria-label="Putar musik sebelumnya"
+            class="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/10 hover:bg-indigo-500/25 active:scale-95"
+            disabled
+          >
+            <i class="fa-solid fa-backward text-[11px]"></i>
+          </button>
 
-<div class="absolute top-4 right-4 flex gap-2 items-center">
-<button id="prevMusic" class="w-8 h-8 rounded-full bg-white/10 hover:bg-indigo-500/30 flex items-center justify-center">
-<i class="fa-solid fa-backward text-xs"></i>
-</button>
-<button id="musicBtn" class="w-10 h-10 rounded-full bg-white/10 hover:bg-indigo-500/30 flex items-center justify-center">
-<i id="musicIcon" class="fa-solid fa-play text-sm"></i>
-</button>
-<button id="nextMusic" class="w-8 h-8 rounded-full bg-white/10 hover:bg-indigo-500/30 flex items-center justify-center">
-<i class="fa-solid fa-forward text-xs"></i>
-</button>
-</div>
+          <button
+            id="musicBtn"
+            type="button"
+            aria-label="Putar atau jeda musik"
+            class="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-indigo-600 shadow-lg shadow-indigo-500/25 hover:bg-indigo-500 active:scale-95"
+            disabled
+          >
+            <i id="musicIcon" class="fa-solid fa-play text-sm"></i>
+          </button>
 
-<div class="flex justify-center mt-1">
-<img src="img/foto.jpeg"
-class="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-4 border-white/20 shadow-lg animate-float hover:scale-105 transition-transform duration-300">
-</div>
+          <button
+            id="nextMusic"
+            type="button"
+            aria-label="Putar musik berikutnya"
+            class="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/10 hover:bg-indigo-500/25 active:scale-95"
+            disabled
+          >
+            <i class="fa-solid fa-forward text-[11px]"></i>
+          </button>
+        </div>
 
-<h1 class="mt-4 text-xl sm:text-2xl font-semibold tracking-wide">Yuuzaann</h1>
+        <div class="pt-10 sm:pt-6">
+          <div
+            id="profileSpinWrap"
+            class="profile-spin-wrap relative mx-auto h-24 w-24 sm:h-32 sm:w-32"
+          >
+            <div class="absolute inset-0 rounded-full bg-indigo-500/30 blur-xl animate-pulseSoft"></div>
 
-<p class="mt-2 text-sm sm:text-[15px] text-gray-300 leading-relaxed max-w-md mx-auto">
-Siswa RPL, gamer & penikmat komik. Eksplor teknologi & coding 🚀
-</p>
+            <img
+              src="img/foto.jpeg"
+              alt="Foto profil Yuuzaann"
+              class="relative h-24 w-24 sm:h-32 sm:w-32 rounded-full object-cover border-4 border-white/20 shadow-2xl shadow-black/30"
+            />
+          </div>
 
-<div class="flex justify-center gap-5 mt-6 text-xl" id="socials"></div>
-<div class="my-6 h-px bg-white/10"></div>
-<div class="space-y-4" id="linksContainer"></div>
-<p id="musicStatus" class="mt-6 text-xs text-gray-400">🎵 Music: Paused</p>
-<p class="mt-1 text-[11px] text-gray-500">© 2026 Yuuzaann • All rights reserved</p>
+          <h1 class="mt-4 sm:mt-5 text-2xl sm:text-3xl font-bold tracking-tight">
+            Yuuzaann
+          </h1>
 
-</div>
-</div>
+          <div class="mt-3 inline-flex items-center gap-2 rounded-full border border-indigo-400/20 bg-indigo-500/15 px-3 py-1 text-xs font-medium text-indigo-100">
+            <i class="fa-solid fa-code text-indigo-300"></i>
+            RPL Student • Web Developer
+          </div>
 
-<script>
-// Social Media
-const socialsData = [
-  { href:"https://x.com/Yuuzaan_", icon:"fa-brands fa-x-twitter", color:"hover:text-sky-400" },
-  { href:"https://www.instagram.com/sadutzz_", icon:"fa-brands fa-instagram", color:"hover:text-pink-400" },
-  { href:"https://vm.tiktok.com/ZS9JAY62Adbyg-EKDyK/", icon:"fa-brands fa-tiktok", color:"hover:text-white" },
-  { href:"https://github.com/Yuuzaann", icon:"fa-brands fa-github", color:"hover:text-gray-300" }
-];
+          <p class="mx-auto mt-4 max-w-sm sm:max-w-md text-[13px] sm:text-[15px] leading-relaxed text-slate-300">
+            Junior Web Developer in progress. Suka ngulik web, gaming, dan komik. Currently building small projects 🚀
+          </p>
+        </div>
 
-const socialsContainer=document.getElementById("socials");
-socialsData.forEach(s=>{
-  const a=document.createElement("a");
-  a.href=s.href;
-  a.target="_blank";
-  a.className=`${s.color} hover:scale-110 transition`;
-  a.innerHTML=`<i class="${s.icon}"></i>`;
-  socialsContainer.appendChild(a);
-});
+        <nav
+          class="mt-5 sm:mt-6 flex justify-center gap-2.5 sm:gap-3"
+          id="socials"
+          aria-label="Social media Yuuzaann"
+        ></nav>
 
-// Links
-const linksData=[
-  { href:"https://yuuzaann.github.io/Arya-Portofolio/", icon:"fa-solid fa-briefcase", text:"My Portfolio", style:"bg-white/10 border border-white/10 hover:bg-indigo-500/25" },
-  { href:"https://saweria.co/Yuuzaann", icon:"fa-solid fa-mug-saucer", text:"Support Me", style:"bg-white/10 border border-white/10 hover:bg-indigo-500/25" },
-  { href:"https://discord.gg/N469ZNNSzS", icon:"fa-brands fa-discord", text:"Join My Discord", style:"bg-indigo-600 hover:bg-indigo-500 shadow-lg text-white" }
-];
+        <div class="my-6 flex items-center gap-3" aria-hidden="true">
+          <div class="h-px flex-1 bg-white/10"></div>
+          <span class="text-[11px] uppercase tracking-[0.25em] text-slate-500">Links</span>
+          <div class="h-px flex-1 bg-white/10"></div>
+        </div>
 
-const linksContainer=document.getElementById("linksContainer");
-linksData.forEach(l=>{
-  const a=document.createElement("a");
-  a.href=l.href;
-  a.target="_blank";
-  a.className=`flex items-center justify-center gap-2 block w-full py-3 rounded-xl font-medium ${l.style} hover:scale-[1.02] transition-transform duration-300`;
-  a.innerHTML=`<i class="${l.icon}"></i> ${l.text}`;
-  linksContainer.appendChild(a);
-});
+        <div class="space-y-3" id="linksContainer" aria-label="Daftar tautan utama"></div>
 
-// Music
-const music=document.getElementById("bgMusic");
-const btn=document.getElementById("musicBtn");
-const icon=document.getElementById("musicIcon");
-const statusText=document.getElementById("musicStatus");
-const prevBtn=document.getElementById("prevMusic");
-const nextBtn=document.getElementById("nextMusic");
+        <div class="sr-only" aria-live="polite">
+          <p id="musicStatus">🎵 Music: Loading playlist...</p>
+        </div>
 
-let isPlaying=false;
-let trackIndex=0;
-let playlist=[];
+        <p class="mt-4 text-[11px] text-slate-500">
+          © 2026 Yuuzaann • All rights reserved
+        </p>
+      </div>
+    </section>
+  </main>
 
-fetch("playlist.json")
-.then(res=>res.json())
-.then(data=>{ playlist=data; loadTrack(trackIndex,false); })
-.catch(()=>{});
+  <script>
+    const socialsData = [
+      {
+        label: "Twitter/X",
+        href: "https://x.com/Yuuzaan_",
+        icon: "fa-brands fa-x-twitter",
+        color: "hover:text-sky-400"
+      },
+      {
+        label: "Instagram",
+        href: "https://www.instagram.com/sadutzz_",
+        icon: "fa-brands fa-instagram",
+        color: "hover:text-pink-400"
+      },
+      {
+        label: "TikTok",
+        href: "https://vm.tiktok.com/ZS9JAY62Adbyg-EKDyK/",
+        icon: "fa-brands fa-tiktok",
+        color: "hover:text-white"
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/Yuuzaann",
+        icon: "fa-brands fa-github",
+        color: "hover:text-slate-200"
+      }
+    ];
 
-function loadTrack(i, autoplay=true){
-  if(!playlist[i]) return;
-  music.src=playlist[i].src;
-  music.load();
-  updateStatus();
-  if(autoplay){
-    music.play().then(()=>{
-      isPlaying=true;
-      icon.classList.replace("fa-play","fa-pause");
-      updateStatus();
-    }).catch(()=>{});
-  }
-}
+    const linksData = [
+      {
+        href: "https://yuuzaann.github.io/Arya-Portofolio/",
+        icon: "fa-solid fa-briefcase",
+        text: "My Portfolio",
+        description: "Project, skill, dan profil lengkap",
+        featured: true
+      },
+      {
+        href: "https://saweria.co/Yuuzaann",
+        icon: "fa-solid fa-mug-saucer",
+        text: "Support Me",
+        description: "Dukung karya dan project kecilku",
+        featured: false
+      },
+      {
+        href: "https://discord.gg/N469ZNNSzS",
+        icon: "fa-brands fa-discord",
+        text: "Join My Discord",
+        description: "Gabung ke komunitas dan ngobrol bareng",
+        featured: false
+      }
+    ];
 
-function updateStatus(){
-  if(playlist[trackIndex])
-  statusText.textContent=`🎵 ${isPlaying?'Playing':'Paused'}: ${playlist[trackIndex].title}`;
-}
+    const socialsContainer = document.getElementById("socials");
+    const linksContainer = document.getElementById("linksContainer");
 
-btn.addEventListener("click",async()=>{
-  if(!isPlaying){
-    await music.play();
-    icon.classList.replace("fa-play","fa-pause");
-    isPlaying=true;
-  }else{
-    music.pause();
-    icon.classList.replace("fa-pause","fa-play");
-    isPlaying=false;
-  }
-  updateStatus();
-});
-
-prevBtn.addEventListener("click",()=>{ trackIndex=(trackIndex-1+playlist.length)%playlist.length; loadTrack(trackIndex,true); });
-nextBtn.addEventListener("click",()=>{ trackIndex=(trackIndex+1)%playlist.length; loadTrack(trackIndex,true); });
-music.addEventListener("ended",()=>{ trackIndex=(trackIndex+1)%playlist.length; loadTrack(trackIndex,true); });
-
-// Particles
-const particles=document.getElementById("particles");
-for(let i=0;i<80;i++){
-  const div=document.createElement("div");
-  div.classList.add("particle");
-  const size=Math.random()*3+2;
-  div.style.width=size+"px";
-  div.style.height=size+"px";
-  div.style.top=Math.random()*100+"%";
-  div.style.left=Math.random()*100+"%";
-  div.style.animation=`spinSlow ${Math.random()*50+20}s linear infinite`;
-  particles.appendChild(div);
-}
-
-// 3D Tilt
-const tiltCard=document.getElementById("tiltCard");
-
-tiltCard.addEventListener("mousemove",(e)=>{
-  const rect=tiltCard.getBoundingClientRect();
-  const x=e.clientX-rect.left;
-  const y=e.clientY-rect.top;
-
-  const centerX=rect.width/2;
-  const centerY=rect.height/2;
-
-  const rotateX=((y-centerY)/centerY)*8;
-  const rotateY=((x-centerX)/centerX)*-8;
-
-  tiltCard.style.transform=`
-    rotateX(${rotateX}deg)
-    rotateY(${rotateY}deg)
-    scale(1.02)
-  `;
-});
-
-tiltCard.addEventListener("mouseleave",()=>{
-  tiltCard.style.transform="rotateX(0) rotateY(0) scale(1)";
-});
-
-let currentX=0,currentY=0,targetX=0,targetY=0;
-
-function animateTilt(){
-  currentX+=(targetX-currentX)*0.08;
-  currentY+=(targetY-currentY)*0.08;
-
-  tiltCard.style.transform=`
-    rotateX(${currentX}deg)
-    rotateY(${currentY}deg)
-    scale(1.02)
-  `;
-
-  requestAnimationFrame(animateTilt);
-}
-animateTilt();
-
-tiltCard.addEventListener("mousemove",(e)=>{
-  const rect=tiltCard.getBoundingClientRect();
-  const x=e.clientX-rect.left;
-  const y=e.clientY-rect.top;
-  const centerX=rect.width/2;
-  const centerY=rect.height/2;
-  const maxTilt=14;
-
-  targetX=((y-centerY)/centerY)*maxTilt;
-  targetY=((x-centerX)/centerX)*-maxTilt;
-});
-
-tiltCard.addEventListener("mouseleave",()=>{
-  targetX=0;
-  targetY=0;
-});
-
-function enableGyro(){
-  if(window.DeviceOrientationEvent){
-    if(typeof DeviceOrientationEvent.requestPermission==="function"){
-      DeviceOrientationEvent.requestPermission().then(p=>{
-        if(p==="granted"){
-          window.addEventListener("deviceorientation",handleOrientation);
-        }
-      });
-    }else{
-      window.addEventListener("deviceorientation",handleOrientation);
+    function createExternalLink({ href, label }) {
+      const anchor = document.createElement("a");
+      anchor.href = href;
+      anchor.target = "_blank";
+      anchor.rel = "noopener noreferrer";
+      anchor.setAttribute("aria-label", label);
+      return anchor;
     }
-  }
-}
 
-function handleOrientation(e){
-  const beta=e.beta||0;
-  const gamma=e.gamma||0;
-  const maxTilt=12;
+    socialsData.forEach((social) => {
+      const anchor = createExternalLink({
+        href: social.href,
+        label: social.label
+      });
 
-  targetX=(beta-45)/45*maxTilt;
-  targetY=gamma/45*maxTilt;
-}
+      anchor.className = `flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-white/10 bg-white/10 text-base sm:text-lg text-slate-200 shadow-lg shadow-black/10 backdrop-blur-xl ${social.color} hover:-translate-y-1 hover:bg-white/15 active:scale-95`;
+      anchor.innerHTML = `<i class="${social.icon}" aria-hidden="true"></i>`;
 
-window.addEventListener("click",enableGyro,{once:true});
+      socialsContainer.appendChild(anchor);
+    });
 
-</script>
+    linksData.forEach((link) => {
+      const anchor = createExternalLink({
+        href: link.href,
+        label: link.text
+      });
 
+      const featuredClass = link.featured
+        ? "bg-indigo-600/95 border-indigo-400/30 shadow-lg shadow-indigo-500/25 hover:bg-indigo-500"
+        : "bg-white/10 border-white/10 hover:bg-white/[0.14] hover:border-indigo-300/25";
+
+      const iconClass = link.featured
+        ? "bg-white/15 text-white"
+        : "bg-indigo-500/15 text-indigo-200";
+
+      anchor.className = `link-card group flex w-full items-center justify-between gap-4 rounded-2xl border p-4 text-left ${featuredClass} hover:-translate-y-0.5 active:scale-[0.99]`;
+
+      anchor.innerHTML = `
+        <div class="flex min-w-0 items-center gap-3">
+          <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${iconClass}">
+            <i class="${link.icon}" aria-hidden="true"></i>
+          </div>
+
+          <div class="min-w-0">
+            <p class="truncate text-sm font-semibold text-white">${link.text}</p>
+            <p class="mt-0.5 truncate text-xs ${link.featured ? "text-indigo-100/80" : "text-slate-400"}">${link.description}</p>
+          </div>
+        </div>
+
+        <i class="link-arrow fa-solid fa-arrow-up-right-from-square shrink-0 text-xs ${link.featured ? "text-indigo-100/80" : "text-slate-500"}" aria-hidden="true"></i>
+      `;
+
+      linksContainer.appendChild(anchor);
+    });
+
+    const music = document.getElementById("bgMusic");
+    const musicBtn = document.getElementById("musicBtn");
+    const musicIcon = document.getElementById("musicIcon");
+    const musicStatus = document.getElementById("musicStatus");
+    const prevBtn = document.getElementById("prevMusic");
+    const nextBtn = document.getElementById("nextMusic");
+    const profileSpinWrap = document.getElementById("profileSpinWrap");
+
+    let isPlaying = false;
+    let trackIndex = 0;
+    let playlist = [];
+
+    function setMusicControlsState(enabled) {
+      musicBtn.disabled = !enabled;
+      prevBtn.disabled = !enabled;
+      nextBtn.disabled = !enabled;
+    }
+
+    function updateMusicIcon() {
+      musicIcon.className = isPlaying
+        ? "fa-solid fa-pause text-sm"
+        : "fa-solid fa-play text-sm";
+    }
+
+    function updateProfileSpin() {
+      if (!profileSpinWrap) return;
+
+      if (isPlaying) {
+        profileSpinWrap.classList.add("is-spinning");
+      } else {
+        profileSpinWrap.classList.remove("is-spinning");
+      }
+    }
+
+    function updateMusicStatus(message) {
+      if (message) {
+        musicStatus.textContent = message;
+        return;
+      }
+
+      const currentTrack = playlist[trackIndex];
+
+      if (!currentTrack) {
+        musicStatus.textContent = "🎵 Music: Playlist not found";
+        return;
+      }
+
+      musicStatus.textContent = `🎵 ${isPlaying ? "Playing" : "Paused"}: ${currentTrack.title}`;
+    }
+
+    function loadTrack(index, autoplay = false) {
+      const currentTrack = playlist[index];
+
+      if (!currentTrack || !currentTrack.src) return;
+
+      music.src = currentTrack.src;
+      music.load();
+
+      isPlaying = false;
+      updateMusicIcon();
+      updateProfileSpin();
+      updateMusicStatus();
+
+      if (autoplay) {
+        playMusic();
+      }
+    }
+
+    async function playMusic() {
+      if (!playlist.length) return;
+
+      try {
+        await music.play();
+        isPlaying = true;
+      } catch (error) {
+        isPlaying = false;
+        updateMusicStatus("🎵 Music: Tap play to start");
+      } finally {
+        updateMusicIcon();
+        updateProfileSpin();
+        updateMusicStatus();
+      }
+    }
+
+    function pauseMusic() {
+      music.pause();
+      isPlaying = false;
+
+      updateMusicIcon();
+      updateProfileSpin();
+      updateMusicStatus();
+    }
+
+    fetch("playlist.json")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Playlist failed to load");
+        }
+
+        return response.json();
+      })
+      .then((data) => {
+        if (!Array.isArray(data) || data.length === 0) {
+          throw new Error("Playlist is empty");
+        }
+
+        playlist = data;
+        setMusicControlsState(true);
+        loadTrack(trackIndex, false);
+      })
+      .catch(() => {
+        playlist = [];
+        setMusicControlsState(false);
+        updateMusicStatus("🎵 Music: playlist.json belum tersedia");
+      });
+
+    musicBtn.addEventListener("click", () => {
+      if (isPlaying) {
+        pauseMusic();
+      } else {
+        playMusic();
+      }
+    });
+
+    prevBtn.addEventListener("click", () => {
+      if (!playlist.length) return;
+
+      trackIndex = (trackIndex - 1 + playlist.length) % playlist.length;
+      loadTrack(trackIndex, true);
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (!playlist.length) return;
+
+      trackIndex = (trackIndex + 1) % playlist.length;
+      loadTrack(trackIndex, true);
+    });
+
+    music.addEventListener("ended", () => {
+      if (!playlist.length) return;
+
+      trackIndex = (trackIndex + 1) % playlist.length;
+      loadTrack(trackIndex, true);
+    });
+
+    music.addEventListener("pause", () => {
+      isPlaying = false;
+      updateMusicIcon();
+      updateProfileSpin();
+      updateMusicStatus();
+    });
+
+    music.addEventListener("play", () => {
+      isPlaying = true;
+      updateMusicIcon();
+      updateProfileSpin();
+      updateMusicStatus();
+    });
+
+    const particles = document.getElementById("particles");
+    const particleCount = window.matchMedia("(max-width: 640px)").matches ? 22 : 34;
+
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement("div");
+      const size = Math.random() * 2.5 + 1.5;
+
+      particle.className = "particle animate-orbit";
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.top = `${Math.random() * 100}%`;
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.animationDuration = `${Math.random() * 45 + 28}s`;
+      particle.style.animationDelay = `${Math.random() * -30}s`;
+
+      particles.appendChild(particle);
+    }
+
+    const tiltCard = document.getElementById("tiltCard");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!reduceMotion) {
+      tiltCard.addEventListener("mousemove", (event) => {
+        const rect = tiltCard.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        tiltCard.style.setProperty("--glow-x", `${(x / rect.width) * 100}%`);
+        tiltCard.style.setProperty("--glow-y", `${(y / rect.height) * 100}%`);
+      });
+    }
+  </script>
 </body>
 </html>
