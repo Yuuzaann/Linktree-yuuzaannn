@@ -1,5 +1,42 @@
-[ 
-  { "title": "Betelgeuse - Yuuri", "src": "music/favorite.wav" }, 
-  { "title": "Hadaka no Yuusha - Vaundy", "src": "music/hadaka-no-yuusha.mp3" }, 
-  { "title": "Merry go Round - Yuuri", "src": "music/merry-go-round.mp3" } 
+[
+  {
+    "title": "Betelgeuse - Yuuri",
+    "src": "music/favorite.wav"
+  },
+  {
+    "title": "Hadaka no Yuusha - Vaundy",
+    "src": "music/hadaka-no-yuusha.mp3"
+  },
+  {
+    "title": "Merry go Round - Yuuri",
+    "src": "music/merry-go-round.mp3"
+  },
+  {
+    "title": "I",
+    "src": "music/I_spotdown.org.mp3"
+  },
+  {
+    "title": "Keep Your Fire Burning",
+    "src": "music/Keep Your Fire Burning_spotdown.org.mp3"
+  },
+  {
+    "title": "The Story of Us",
+    "src": "music/The Story of Us_spotdown.org.mp3"
+  },
+  {
+    "title": "VISIONS - Kamen Rider Geats Theme",
+    "src": "music/VISIONS - [仮面ライダーギーツ]主題歌_spotdown.org.mp3"
+  },
+  {
+    "title": "Inferno",
+    "src": "music/インフェルノ_spotdown.org.mp3"
+  },
+  {
+    "title": "Shall We Dance?",
+    "src": "music/シャル・ウィ・ダンス？_spotdown.org.mp3"
+  },
+  {
+    "title": "Song of Life",
+    "src": "music/人生讃歌 - Song of Life_spotdown.org.mp3"
+  }
 ]
