@@ -162,19 +162,29 @@
       z-index: 20;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      background: rgba(2, 6, 23, 0.65);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 1rem;
-      padding: 0.5rem 0.75rem;
-      backdrop-filter: blur(12px);
+      gap: 0.35rem;
+      width: auto;
+      max-width: calc(100% - 1.5rem);
+      min-height: 3rem;
+      background: rgba(2, 6, 23, 0.72);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 1.15rem;
+      padding: 0.45rem 0.55rem 0.45rem 0.75rem;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      overflow: hidden;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.22);
     }
 
     #track-info {
       display: none;
       flex-direction: column;
-      align-items: flex-end;
-      margin-right: 0.25rem;
+      align-items: flex-start;
+      justify-content: center;
+      width: 7.8rem;
+      min-width: 0;
+      margin-right: 0.15rem;
+      line-height: 1.1;
     }
 
     @media (min-width: 480px) {
@@ -182,65 +192,90 @@
     }
 
     #track-label {
-      font-size: 9px;
+      font-size: 8px;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.18em;
       color: #64748b;
-      font-weight: 600;
-      margin-bottom: 1px;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      line-height: 1;
     }
 
     #track-title {
-      font-size: 11px;
-      color: #a5b4fc;
-      max-width: 110px;
+      display: block;
+      width: 100%;
+      font-size: 10.5px;
+      line-height: 1.2;
+      color: #c7d2fe;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .mp-btn {
-      display: flex;
+      flex: 0 0 auto;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
+      width: 1.55rem;
+      height: 1.55rem;
       border: none;
       background: transparent;
       cursor: pointer;
       color: #94a3b8;
       border-radius: 9999px;
-      padding: 0.25rem;
+      padding: 0;
       transition: color 0.2s, background 0.2s, transform 0.15s;
     }
 
     .mp-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
-    .mp-btn:active { transform: scale(0.9); }
+    .mp-btn:active { transform: scale(0.92); }
     .mp-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
     .play-main-btn {
-      width: 2.25rem;
-      height: 2.25rem;
-      background: rgba(99, 102, 241, 0.25);
-      color: #a5b4fc;
+      width: 2.15rem;
+      height: 2.15rem;
+      margin-inline: 0.05rem;
+      background: rgba(99, 102, 241, 0.3);
+      color: #c7d2fe;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
     }
 
-    .play-main-btn:hover { background: rgba(99, 102, 241, 0.45); color: #fff; }
+    .play-main-btn:hover { background: rgba(99, 102, 241, 0.48); color: #fff; }
 
-    /* Visualizer bars */
+    /* Visualizer bars - width is reserved so layout does not jump when music plays */
     #visualizer {
-      display: none;
-      align-items: flex-end;
-      gap: 2px;
+      flex: 0 0 15px;
+      width: 15px;
       height: 16px;
-      margin-left: 2px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 2px;
+      margin-left: 0.15rem;
+      opacity: 0;
+      transform: translateY(1px);
+      transition: opacity 0.2s ease;
     }
 
-    #visualizer.active { display: flex; }
+    #visualizer.active { opacity: 1; }
 
     .vis-bar {
       width: 3px;
       background: #818cf8;
       border-radius: 2px 2px 0 0;
       animation: visPulse 0.5s ease-in-out infinite alternate;
+    }
+
+    @media (max-width: 380px) {
+      #music-player {
+        top: 0.65rem;
+        right: 0.65rem;
+        padding-inline: 0.55rem;
+        gap: 0.25rem;
+      }
+
+      #track-info { display: none; }
     }
 
     /* ---------- Avatar ---------- */
@@ -578,8 +613,7 @@
         <button id="prevBtn" class="mp-btn" aria-label="Track sebelumnya" disabled>
           <i class="fa-solid fa-backward-step" style="font-size:13px;"></i>
         </button>
-        <button id="playBtn" class="mp-btn play-main-btn" aria-label="Putar / Jeda" disabled
-          style="width:2.25rem;height:2.25rem;background:rgba(99,102,241,.22);color:#a5b4fc;border-radius:9999px;">
+        <button id="playBtn" class="mp-btn play-main-btn" aria-label="Putar / Jeda" disabled>
           <i id="playIcon" class="fa-solid fa-play" style="font-size:12px;margin-left:2px;"></i>
         </button>
         <button id="nextBtn" class="mp-btn" aria-label="Track berikutnya" disabled>
@@ -602,9 +636,9 @@
         <div id="avatar-wrap">
           <div id="avatar-ring">
             <div id="avatar-inner">
-              <!-- <span id="avatar-initials">YZ</span> -->
+              <span id="avatar-initials">YZ</span>
               <!-- Swap to photo: comment out span above and uncomment below -->
-              <img src="img/foto.jpeg" alt="Foto profil Yuuzaann" style="width:100%;height:100%;object-fit:cover;border-radius:9999px;" /> 
+              <!-- <img src="img/foto.jpeg" alt="Foto profil Yuuzaann" style="width:100%;height:100%;object-fit:cover;border-radius:9999px;" /> -->
             </div>
           </div>
           <div id="status-badge">
