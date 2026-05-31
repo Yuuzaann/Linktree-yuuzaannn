@@ -3,764 +3,904 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Linktree personal Yuuzaann - portfolio, social media, support, dan Discord." />
+  <meta name="description" content="Linktree personal Yuuzaann - social media, support, dan Discord." />
   <meta name="theme-color" content="#020617" />
-
   <link rel="icon" href="https://raw.githubusercontent.com/Yuuzaann/Arya-Portofolio/main/assets/icon.png" />
-  <title>Linktree - Yuuzaann</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Yuuzaann</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            poppins: ["Poppins", "sans-serif"]
-          },
-          animation: {
-            gradient: "gradient 16s ease infinite",
-            pulseSoft: "pulseSoft 2.8s ease-in-out infinite",
-            orbit: "orbit 38s linear infinite"
-          },
-          keyframes: {
-            gradient: {
-              "0%, 100%": { backgroundPosition: "0% 50%" },
-              "50%": { backgroundPosition: "100% 50%" }
-            },
-            pulseSoft: {
-              "0%, 100%": { opacity: ".55", transform: "scale(1)" },
-              "50%": { opacity: "1", transform: "scale(1.04)" }
-            },
-            orbit: {
-              "0%": { transform: "rotate(0deg)" },
-              "100%": { transform: "rotate(360deg)" }
-            }
-          }
+          fontFamily: { poppins: ["Poppins", "sans-serif"] }
         }
       }
     };
   </script>
 
   <style>
-    :root {
-      color-scheme: dark;
-    }
+    :root { color-scheme: dark; }
 
-    * {
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
+      font-family: "Poppins", sans-serif;
       min-height: 100vh;
       min-height: 100dvh;
-      background-size: 320% 320%;
       overflow-x: hidden;
+      background: #020617;
+      color: #e2e8f0;
     }
 
-    main {
-      width: min(100%, 36rem);
-      margin-inline: auto;
-    }
-
-    body::before,
-    body::after {
-      content: "";
-      position: fixed;
-      border-radius: 9999px;
-      filter: blur(70px);
-      opacity: .35;
-      pointer-events: none;
-      z-index: -30;
-    }
-
-    body::before {
-      width: 280px;
-      height: 280px;
-      top: -80px;
-      left: -60px;
-      background: #6366f1;
-    }
-
-    body::after {
-      width: 320px;
-      height: 320px;
-      right: -90px;
-      bottom: -90px;
-      background: #a855f7;
-    }
-
-    a,
-    button {
-      transition:
-        transform .25s ease,
-        background .25s ease,
-        border-color .25s ease,
-        color .25s ease,
-        opacity .25s ease;
-    }
-
-    button:disabled {
-      cursor: not-allowed;
-      opacity: .45;
-    }
-
-    .noise-layer {
+    /* ---------- Background ---------- */
+    #bg-gradient {
       position: fixed;
       inset: 0;
-      z-index: -25;
+      z-index: -3;
+      background: linear-gradient(-45deg, #020617, #0f172a, #1e1b4b, #000000);
+      background-size: 400% 400%;
+      animation: gradientShift 16s ease infinite;
+    }
+
+    #bg-dot {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
       pointer-events: none;
-      opacity: .13;
-      background-image: radial-gradient(rgba(255,255,255,.32) 1px, transparent 1px);
+      opacity: 0.18;
+      background-image: radial-gradient(rgba(255,255,255,0.18) 1px, transparent 1px);
       background-size: 22px 22px;
-      mask-image: linear-gradient(to bottom, black, transparent 88%);
+    }
+
+    #orb-tl {
+      position: fixed;
+      top: -10%;
+      left: -10%;
+      width: 40%;
+      height: 40%;
+      border-radius: 9999px;
+      background: rgba(99, 102, 241, 0.18);
+      filter: blur(110px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    #orb-br {
+      position: fixed;
+      bottom: -10%;
+      right: -10%;
+      width: 40%;
+      height: 40%;
+      border-radius: 9999px;
+      background: rgba(139, 92, 246, 0.18);
+      filter: blur(110px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* ---------- Particles ---------- */
+    #particles {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
     }
 
     .particle {
       position: absolute;
-      width: 3px;
-      height: 3px;
       border-radius: 9999px;
-      background: rgba(255,255,255,.34);
-      box-shadow: 0 0 14px rgba(129,140,248,.55);
+      background: rgba(129, 140, 248, 0.5);
+      box-shadow: 0 0 6px rgba(129, 140, 248, 0.4);
       pointer-events: none;
+      animation: floatParticle linear infinite;
     }
 
-    .tilt-card {
-      transform: none !important;
-      transform-origin: center center;
-      transition: box-shadow .3s ease, border-color .3s ease;
-    }
-
-    .tilt-inner {
-      transform: none;
-    }
-
-    .tilt-glow {
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background: radial-gradient(
-        circle at var(--glow-x, 50%) var(--glow-y, 50%),
-        rgba(129,140,248,.24),
-        transparent 48%
-      );
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s ease;
-      z-index: 1;
-    }
-
-    .tilt-card:hover .tilt-glow {
-      opacity: 1;
-    }
-
-    .glass-border {
+    /* ---------- Card ---------- */
+    #card {
       position: relative;
+      z-index: 10;
+      width: min(100%, 38rem);
+      margin-inline: auto;
+      border-radius: 1.75rem;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+      padding: 1.5rem;
       overflow: hidden;
+      transition: border-color 0.3s ease;
     }
 
-    .glass-border::before {
+    @media (min-width: 640px) {
+      #card { padding: 2.5rem; }
+    }
+
+    /* glass border sheen */
+    #card::before {
       content: "";
       position: absolute;
       inset: 0;
       border-radius: inherit;
       padding: 1px;
-      background: linear-gradient(
-        135deg,
-        rgba(255,255,255,.34),
-        rgba(129,140,248,.26),
-        rgba(255,255,255,.06)
-      );
-      -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
+      background: linear-gradient(135deg, rgba(255,255,255,0.22), rgba(129,140,248,0.18), rgba(255,255,255,0.04));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events: none;
-      z-index: 3;
+      z-index: 1;
     }
 
-    .link-card:hover .link-arrow {
-      transform: translate(2px, -2px);
-      color: white;
-    }
-
-    .profile-spin-wrap {
-      transform-origin: center center;
-      will-change: transform;
-    }
-
-    .profile-spin-wrap.is-spinning {
-      animation: profileSpin 10s linear infinite !important;
-    }
-
-    .profile-spin-wrap.is-spinning img {
-      box-shadow:
-        0 0 28px rgba(129, 140, 248, .55),
-        0 0 60px rgba(168, 85, 247, .25);
-      filter: saturate(1.15);
-    }
-
-    @keyframes profileSpin {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    .music-notes-layer {
+    /* mouse-follow glow overlay */
+    #card-glow {
       position: absolute;
       inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 2;
+      background: radial-gradient(
+        700px circle at var(--mx, -999px) var(--my, -999px),
+        rgba(124, 58, 237, 0.12),
+        transparent 40%
+      );
+      transition: background 0.05s;
+    }
+
+    /* ---------- Music Player ---------- */
+    #music-player {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(2, 6, 23, 0.65);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 1rem;
+      padding: 0.5rem 0.75rem;
+      backdrop-filter: blur(12px);
+    }
+
+    #track-info {
+      display: none;
+      flex-direction: column;
+      align-items: flex-end;
+      margin-right: 0.25rem;
+    }
+
+    @media (min-width: 480px) {
+      #track-info { display: flex; }
+    }
+
+    #track-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #64748b;
+      font-weight: 600;
+      margin-bottom: 1px;
+    }
+
+    #track-title {
+      font-size: 11px;
+      color: #a5b4fc;
+      max-width: 110px;
+      white-space: nowrap;
       overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mp-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: #94a3b8;
+      border-radius: 9999px;
+      padding: 0.25rem;
+      transition: color 0.2s, background 0.2s, transform 0.15s;
+    }
+
+    .mp-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    .mp-btn:active { transform: scale(0.9); }
+    .mp-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    .play-main-btn {
+      width: 2.25rem;
+      height: 2.25rem;
+      background: rgba(99, 102, 241, 0.25);
+      color: #a5b4fc;
+    }
+
+    .play-main-btn:hover { background: rgba(99, 102, 241, 0.45); color: #fff; }
+
+    /* Visualizer bars */
+    #visualizer {
+      display: none;
+      align-items: flex-end;
+      gap: 2px;
+      height: 16px;
+      margin-left: 2px;
+    }
+
+    #visualizer.active { display: flex; }
+
+    .vis-bar {
+      width: 3px;
+      background: #818cf8;
+      border-radius: 2px 2px 0 0;
+      animation: visPulse 0.5s ease-in-out infinite alternate;
+    }
+
+    /* ---------- Avatar ---------- */
+    #avatar-wrap {
+      position: relative;
+      width: 7rem;
+      height: 7rem;
+      margin: 0 auto 1.25rem;
+    }
+
+    @media (min-width: 640px) {
+      #avatar-wrap { width: 8rem; height: 8rem; }
+    }
+
+    #avatar-ring {
+      width: 100%;
+      height: 100%;
+      border-radius: 9999px;
+      padding: 3px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6, #6366f1);
+      background-size: 200% 200%;
+      animation: ringRotate 4s linear infinite;
+      transition: box-shadow 0.4s ease;
+    }
+
+    #avatar-ring.playing {
+      box-shadow: 0 0 30px rgba(99, 102, 241, 0.6), 0 0 60px rgba(139, 92, 246, 0.3);
+      animation: ringRotate 1.5s linear infinite, pulseGlow 2s ease-in-out infinite;
+    }
+
+    #avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 9999px;
+      background: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #0f172a;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #avatar-initials {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #c7d2fe, #ddd6fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* profile photo override — if you have foto.jpeg, set it here */
+    /* #avatar-inner { background-image: url('img/foto.jpeg'); background-size: cover; background-position: center; } */
+    /* #avatar-initials { display: none; } */
+
+    #status-badge {
+      position: absolute;
+      bottom: -0.6rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(2, 6, 23, 0.85);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.2rem 0.75rem;
+      border-radius: 9999px;
+      white-space: nowrap;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+
+    #status-badge span { font-size: 10px; font-weight: 500; color: #cbd5e1; }
+
+    .ping-dot {
+      position: relative;
+      width: 8px;
+      height: 8px;
+    }
+
+    .ping-dot::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      background: #34d399;
+      animation: pingAnim 1.2s ease-in-out infinite;
+      opacity: 0.75;
+    }
+
+    .ping-dot::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      background: #10b981;
+    }
+
+    /* ---------- Music Notes ---------- */
+    #music-notes-layer {
+      position: absolute;
+      inset: 0;
       pointer-events: none;
       z-index: 50;
+      overflow: hidden;
     }
 
     .music-note {
       position: absolute;
-      top: 34%;
-      left: 50%;
-      display: inline-block;
-      font-size: 22px;
-      line-height: 1;
-      color: rgba(255, 255, 255, .95);
-      text-shadow:
-        0 0 10px rgba(129, 140, 248, .9),
-        0 0 24px rgba(168, 85, 247, .65),
-        0 0 42px rgba(99, 102, 241, .35);
+      font-size: 18px;
+      color: rgba(255,255,255,0.85);
+      text-shadow: 0 0 10px rgba(129,140,248,0.9), 0 0 24px rgba(168,85,247,0.5);
       opacity: 0;
-      user-select: none;
-      will-change: transform, opacity;
-      animation: floatMusicNote 3s ease-out forwards !important;
+      pointer-events: none;
+      animation: floatNote 2.8s ease-out forwards;
     }
 
-    @keyframes floatMusicNote {
-      0% {
-        opacity: 0;
-        transform:
-          translate3d(0, 0, 0)
-          scale(.75)
-          rotate(0deg);
-      }
-
-      12% {
-        opacity: 1;
-      }
-
-      70% {
-        opacity: .95;
-      }
-
-      100% {
-        opacity: 0;
-        transform:
-          translate3d(var(--note-x, 0px), -150px, 0)
-          scale(1.35)
-          rotate(var(--note-rotate, 15deg));
-      }
+    /* ---------- Role badge ---------- */
+    #role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(99,102,241,0.12);
+      border: 1px solid rgba(99,102,241,0.25);
+      color: #a5b4fc;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.9rem;
+      border-radius: 0.5rem;
+      margin-bottom: 0.9rem;
     }
 
-    @media (max-width: 768px) {
-      main {
-        width: min(100%, 26rem);
-      }
+    #role-badge .dot { color: rgba(99,102,241,0.4); }
 
-      .music-note {
-        top: 36%;
-        font-size: 20px;
-      }
+    /* ---------- Socials ---------- */
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: #cbd5e1;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: all 0.25s ease;
     }
 
+    .social-btn:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(99,102,241,0.4);
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 0 16px rgba(99,102,241,0.3);
+    }
+
+    .social-btn:active { transform: scale(0.93); }
+
+    /* ---------- Divider ---------- */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      margin: 1.5rem 0;
+    }
+
+    /* ---------- Link Cards ---------- */
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 1rem;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .link-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .link-card:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(99,102,241,0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 24px rgba(99,102,241,0.15);
+    }
+
+    .link-card:hover::after { opacity: 1; }
+    .link-card:active { transform: scale(0.99); }
+
+    .link-icon {
+      flex-shrink: 0;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 0.875rem;
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #818cf8;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .link-card:hover .link-icon {
+      color: #a5b4fc;
+      transform: scale(1.1);
+      border-color: rgba(99,102,241,0.3);
+    }
+
+    .link-text { flex: 1; position: relative; z-index: 1; min-width: 0; }
+    .link-title { font-size: 0.9375rem; font-weight: 600; color: #e2e8f0; margin-bottom: 0.15rem; transition: color 0.2s; }
+    .link-card:hover .link-title { color: #fff; }
+    .link-desc { font-size: 12px; color: #64748b; transition: color 0.2s; }
+    .link-card:hover .link-desc { color: #94a3b8; }
+
+    .link-arrow {
+      flex-shrink: 0;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #475569;
+      font-size: 0.75rem;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .link-card:hover .link-arrow {
+      background: rgba(99,102,241,0.2);
+      color: #a5b4fc;
+      transform: translateX(2px);
+    }
+
+    /* ---------- Footer ---------- */
+    #footer { font-size: 11px; color: #334155; margin-top: 1.25rem; text-align: center; }
+
+    /* ---------- Keyframes ---------- */
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes floatParticle {
+      0%, 100% { transform: translateY(0); opacity: 0.2; }
+      50%       { transform: translateY(-14px); opacity: 0.55; }
+    }
+
+    @keyframes ringRotate {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(99,102,241,0.4), 0 0 45px rgba(139,92,246,0.2); }
+      50%       { box-shadow: 0 0 40px rgba(99,102,241,0.75), 0 0 80px rgba(139,92,246,0.4); }
+    }
+
+    @keyframes pingAnim {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50%       { transform: scale(2.2); opacity: 0; }
+    }
+
+    @keyframes floatNote {
+      0%   { opacity: 0; transform: translate3d(0, 0, 0) scale(0.7) rotate(-10deg); }
+      15%  { opacity: 1; }
+      80%  { opacity: 0.8; }
+      100% { opacity: 0; transform: translate3d(var(--nx,0), -130px, 0) scale(1.3) rotate(var(--nr,15deg)); }
+    }
+
+    @keyframes visPulse {
+      0%   { height: 3px; }
+      100% { height: 16px; }
+    }
+
+    /* ---------- Accessibility ---------- */
     @media (prefers-reduced-motion: reduce) {
-      body,
-      body::before,
-      body::after,
-      .particle,
-      .tilt-card,
-      .tilt-inner {
-        animation: none !important;
-        transition: none !important;
-        scroll-behavior: auto !important;
-      }
-
-      .tilt-card,
-      .tilt-inner {
-        transform: none !important;
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
       }
     }
   </style>
 </head>
 
-<body class="min-h-[100dvh] grid place-items-center px-4 py-8 sm:px-6 sm:py-10 font-poppins text-white bg-gradient-to-br from-indigo-950 via-slate-950 to-black animate-gradient">
-  <div class="noise-layer"></div>
-  <div id="particles" class="absolute inset-0 -z-20 overflow-hidden" aria-hidden="true"></div>
+<body class="min-h-[100dvh] grid place-items-center px-4 py-10">
 
-  <audio id="bgMusic" preload="none"></audio>
+  <!-- Background -->
+  <div id="bg-gradient"></div>
+  <div id="bg-dot"></div>
+  <div id="orb-tl"></div>
+  <div id="orb-br"></div>
+  <div id="particles" aria-hidden="true"></div>
 
-  <main class="mx-auto flex items-center justify-center">
-    <section
-      id="tiltCard"
-      class="tilt-card glass-border relative mx-auto w-full rounded-[1.6rem] sm:rounded-[2rem] bg-white/[0.085] backdrop-blur-2xl shadow-2xl shadow-black/40 border border-white/10 p-4 xs:p-5 sm:p-7 text-center"
-      aria-label="Profil dan tautan Yuuzaann"
-    >
-      <div class="tilt-glow"></div>
-      <div id="musicNotes" class="music-notes-layer" aria-hidden="true"></div>
+  <!-- Audio -->
+  <audio id="bgAudio" preload="none"></audio>
 
-      <div class="tilt-inner relative z-10">
-        <div
-          class="absolute right-0 top-0 flex items-center gap-1.5 sm:gap-2 rounded-full border border-white/10 bg-black/20 p-1 sm:p-1.5 backdrop-blur-xl"
-          aria-label="Kontrol musik"
-        >
-          <button
-            id="prevMusic"
-            type="button"
-            aria-label="Putar musik sebelumnya"
-            class="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/10 hover:bg-indigo-500/25 active:scale-95"
-            disabled
-          >
-            <i class="fa-solid fa-backward text-[11px]"></i>
-          </button>
+  <!-- Card -->
+  <main style="width:min(100%,38rem);margin-inline:auto;">
+    <section id="card" aria-label="Profil Yuuzaann">
+      <div id="card-glow" aria-hidden="true"></div>
 
-          <button
-            id="musicBtn"
-            type="button"
-            aria-label="Putar atau jeda musik"
-            class="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-indigo-600 shadow-lg shadow-indigo-500/25 hover:bg-indigo-500 active:scale-95"
-            disabled
-          >
-            <i id="musicIcon" class="fa-solid fa-play text-sm"></i>
-          </button>
-
-          <button
-            id="nextMusic"
-            type="button"
-            aria-label="Putar musik berikutnya"
-            class="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/10 hover:bg-indigo-500/25 active:scale-95"
-            disabled
-          >
-            <i class="fa-solid fa-forward text-[11px]"></i>
-          </button>
+      <!-- Music Player -->
+      <div id="music-player" aria-label="Kontrol musik">
+        <div id="track-info" aria-live="polite">
+          <span id="track-label">Playing</span>
+          <span id="track-title">Memuat...</span>
         </div>
+        <button id="prevBtn" class="mp-btn" aria-label="Track sebelumnya" disabled>
+          <i class="fa-solid fa-backward-step" style="font-size:13px;"></i>
+        </button>
+        <button id="playBtn" class="mp-btn play-main-btn" aria-label="Putar / Jeda" disabled
+          style="width:2.25rem;height:2.25rem;background:rgba(99,102,241,.22);color:#a5b4fc;border-radius:9999px;">
+          <i id="playIcon" class="fa-solid fa-play" style="font-size:12px;margin-left:2px;"></i>
+        </button>
+        <button id="nextBtn" class="mp-btn" aria-label="Track berikutnya" disabled>
+          <i class="fa-solid fa-forward-step" style="font-size:13px;"></i>
+        </button>
+        <div id="visualizer" aria-hidden="true">
+          <div class="vis-bar" style="animation-delay:.0s;animation-duration:.55s;"></div>
+          <div class="vis-bar" style="animation-delay:.1s;animation-duration:.45s;"></div>
+          <div class="vis-bar" style="animation-delay:.2s;animation-duration:.65s;"></div>
+          <div class="vis-bar" style="animation-delay:.05s;animation-duration:.5s;"></div>
+        </div>
+      </div>
 
-        <div class="pt-10 sm:pt-6">
-          <div
-            id="profileSpinWrap"
-            class="profile-spin-wrap relative mx-auto h-24 w-24 sm:h-32 sm:w-32"
-          >
-            <div class="absolute inset-0 rounded-full bg-indigo-500/30 blur-xl animate-pulseSoft"></div>
+      <!-- Music Notes Layer -->
+      <div id="musicNotes" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:50;overflow:hidden;"></div>
 
-            <img
-              src="img/foto.jpeg"
-              alt="Foto profil Yuuzaann"
-              class="relative h-24 w-24 sm:h-32 sm:w-32 rounded-full object-cover border-4 border-white/20 shadow-2xl shadow-black/30"
-            />
+      <!-- Profile -->
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:3rem;margin-bottom:1.75rem;">
+
+        <div id="avatar-wrap">
+          <div id="avatar-ring">
+            <div id="avatar-inner">
+              <span id="avatar-initials">YZ</span>
+              <!-- Swap to photo: comment out span above and uncomment below -->
+              <!-- <img src="img/foto.jpeg" alt="Foto profil Yuuzaann" style="width:100%;height:100%;object-fit:cover;border-radius:9999px;" /> -->
+            </div>
           </div>
-
-          <h1 class="mt-4 sm:mt-5 text-2xl sm:text-3xl font-bold tracking-tight">
-            Yuuzaann
-          </h1>
-
-          <div class="mt-3 inline-flex items-center gap-2 rounded-full border border-indigo-400/20 bg-indigo-500/15 px-3 py-1 text-xs font-medium text-indigo-100">
-            <i class="fa-solid fa-code text-indigo-300"></i>
-            RPL Student • Web Developer
+          <div id="status-badge">
+            <div class="ping-dot" aria-hidden="true"></div>
+            <span>Currently Coding</span>
           </div>
-
-          <p class="mx-auto mt-4 max-w-sm sm:max-w-md text-[13px] sm:text-[15px] leading-relaxed text-slate-300">
-            Junior Web Developer in progress. Suka ngulik web, gaming, dan komik. Currently building small projects 🚀
-          </p>
         </div>
 
-        <nav
-          class="mt-5 sm:mt-6 flex justify-center gap-2.5 sm:gap-3"
-          id="socials"
-          aria-label="Social media Yuuzaann"
-        ></nav>
+        <h1 style="font-size:1.75rem;font-weight:800;color:#fff;letter-spacing:-.03em;margin-top:1.5rem;margin-bottom:.5rem;">Yuuzaann</h1>
 
-        <div class="my-6 flex items-center gap-3" aria-hidden="true">
-          <div class="h-px flex-1 bg-white/10"></div>
-          <span class="text-[11px] uppercase tracking-[0.25em] text-slate-500">Links</span>
-          <div class="h-px flex-1 bg-white/10"></div>
+        <div id="role-badge">
+          RPL Student <span class="dot">•</span> Web Developer
         </div>
 
-        <div class="space-y-3" id="linksContainer" aria-label="Daftar tautan utama"></div>
-
-        <div class="sr-only" aria-live="polite">
-          <p id="musicStatus">🎵 Music: Loading playlist...</p>
-        </div>
-
-        <p class="mt-4 text-[11px] text-slate-500">
-          © 2026 Yuuzaann • All rights reserved
+        <p style="font-size:13.5px;color:#94a3b8;max-width:26rem;line-height:1.65;margin:0;">
+          Junior Web Developer in progress. Suka ngulik web, gaming, dan komik. Currently building small projects.
         </p>
       </div>
+
+      <!-- Socials -->
+      <nav id="socials" style="display:flex;justify-content:center;gap:.75rem;margin-bottom:1.5rem;" aria-label="Social media"></nav>
+
+      <!-- Divider -->
+      <div class="divider"></div>
+
+      <!-- Links -->
+      <div id="links" style="display:flex;flex-direction:column;gap:.75rem;" aria-label="Tautan utama"></div>
+
+      <!-- Footer -->
+      <p id="footer">© 2026 Yuuzaann • All rights reserved</p>
+
+      <!-- Screen reader status -->
+      <div class="sr-only" aria-live="polite" id="srStatus"></div>
     </section>
   </main>
 
   <script>
-    const socialsData = [
-      {
-        label: "Twitter/X",
-        href: "https://x.com/Yuuzaan_",
-        icon: "fa-brands fa-x-twitter",
-        color: "hover:text-sky-400"
-      },
-      {
-        label: "Instagram",
-        href: "https://www.instagram.com/sadutzz_",
-        icon: "fa-brands fa-instagram",
-        color: "hover:text-pink-400"
-      },
-      {
-        label: "TikTok",
-        href: "https://vm.tiktok.com/ZS9JAY62Adbyg-EKDyK/",
-        icon: "fa-brands fa-tiktok",
-        color: "hover:text-white"
-      },
-      {
-        label: "GitHub",
-        href: "https://github.com/Yuuzaann",
-        icon: "fa-brands fa-github",
-        color: "hover:text-slate-200"
-      }
+    /* =====================================================
+       DATA
+    ===================================================== */
+    const SOCIALS = [
+      { label: "Twitter / X",  href: "https://x.com/Yuuzaan_",                      icon: "fa-brands fa-x-twitter" },
+      { label: "Instagram",    href: "https://www.instagram.com/sadutzz_",           icon: "fa-brands fa-instagram" },
+      { label: "TikTok",       href: "https://vm.tiktok.com/ZS9JAY62A/",             icon: "fa-brands fa-tiktok" },
+      { label: "GitHub",       href: "https://github.com/Yuuzaann",                  icon: "fa-brands fa-github" },
     ];
 
-    const linksData = [
+    const LINKS = [
       {
         href: "https://saweria.co/Yuuzaann",
         icon: "fa-solid fa-mug-saucer",
-        text: "Support Me",
-        description: "Dukung karya dan project kecilku",
-        featured: false
+        title: "Support Me",
+        desc: "Dukung karya dan project kecilku"
       },
       {
         href: "https://discord.gg/N469ZNNSzS",
         icon: "fa-brands fa-discord",
-        text: "Join My Discord",
-        description: "Gabung ke komunitas dan ngobrol bareng",
-        featured: false
-      }
+        title: "Join My Discord",
+        desc: "Gabung ke komunitas dan ngobrol bareng"
+      },
+
     ];
 
-    const socialsContainer = document.getElementById("socials");
-    const linksContainer = document.getElementById("linksContainer");
-
-    function createExternalLink({ href, label }) {
-      const anchor = document.createElement("a");
-      anchor.href = href;
-      anchor.target = "_blank";
-      anchor.rel = "noopener noreferrer";
-      anchor.setAttribute("aria-label", label);
-      return anchor;
-    }
-
-    socialsData.forEach((social) => {
-      const anchor = createExternalLink({
-        href: social.href,
-        label: social.label
-      });
-
-      anchor.className = `flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-white/10 bg-white/10 text-base sm:text-lg text-slate-200 shadow-lg shadow-black/10 backdrop-blur-xl ${social.color} hover:-translate-y-1 hover:bg-white/15 active:scale-95`;
-      anchor.innerHTML = `<i class="${social.icon}" aria-hidden="true"></i>`;
-
-      socialsContainer.appendChild(anchor);
+    /* =====================================================
+       BUILD SOCIALS
+    ===================================================== */
+    const socialsEl = document.getElementById("socials");
+    SOCIALS.forEach(s => {
+      const a = document.createElement("a");
+      a.href = s.href;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.className = "social-btn";
+      a.setAttribute("aria-label", s.label);
+      a.innerHTML = `<i class="${s.icon}" aria-hidden="true"></i>`;
+      socialsEl.appendChild(a);
     });
 
-    linksData.forEach((link) => {
-      const anchor = createExternalLink({
-        href: link.href,
-        label: link.text
-      });
-
-      const featuredClass = link.featured
-        ? "bg-indigo-600/95 border-indigo-400/30 shadow-lg shadow-indigo-500/25 hover:bg-indigo-500"
-        : "bg-white/10 border-white/10 hover:bg-white/[0.14] hover:border-indigo-300/25";
-
-      const iconClass = link.featured
-        ? "bg-white/15 text-white"
-        : "bg-indigo-500/15 text-indigo-200";
-
-      anchor.className = `link-card group flex w-full items-center justify-between gap-4 rounded-2xl border p-4 text-left ${featuredClass} hover:-translate-y-0.5 active:scale-[0.99]`;
-
-      anchor.innerHTML = `
-        <div class="flex min-w-0 items-center gap-3">
-          <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${iconClass}">
-            <i class="${link.icon}" aria-hidden="true"></i>
-          </div>
-
-          <div class="min-w-0">
-            <p class="truncate text-sm font-semibold text-white">${link.text}</p>
-            <p class="mt-0.5 truncate text-xs ${link.featured ? "text-indigo-100/80" : "text-slate-400"}">${link.description}</p>
-          </div>
+    /* =====================================================
+       BUILD LINKS
+    ===================================================== */
+    const linksEl = document.getElementById("links");
+    LINKS.forEach(l => {
+      const a = document.createElement("a");
+      a.href = l.href;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.className = "link-card";
+      a.setAttribute("data-testid", `link-${l.title.toLowerCase().replace(/\s+/g,"-")}`);
+      a.innerHTML = `
+        <div class="link-icon">
+          <i class="${l.icon}" aria-hidden="true"></i>
         </div>
-
-        <i class="link-arrow fa-solid fa-arrow-up-right-from-square shrink-0 text-xs ${link.featured ? "text-indigo-100/80" : "text-slate-500"}" aria-hidden="true"></i>
+        <div class="link-text">
+          <div class="link-title">${l.title}</div>
+          <div class="link-desc">${l.desc}</div>
+        </div>
+        <div class="link-arrow">
+          <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        </div>
       `;
-
-      linksContainer.appendChild(anchor);
+      linksEl.appendChild(a);
     });
 
-    const music = document.getElementById("bgMusic");
-    const musicBtn = document.getElementById("musicBtn");
-    const musicIcon = document.getElementById("musicIcon");
-    const musicStatus = document.getElementById("musicStatus");
-    const prevBtn = document.getElementById("prevMusic");
-    const nextBtn = document.getElementById("nextMusic");
-    const profileSpinWrap = document.getElementById("profileSpinWrap");
-    const musicNotes = document.getElementById("musicNotes");
+    /* =====================================================
+       PARTICLES
+    ===================================================== */
+    const particlesEl = document.getElementById("particles");
+    const count = window.matchMedia("(max-width:640px)").matches ? 22 : 32;
 
-    let isPlaying = false;
-    let trackIndex = 0;
-    let playlist = [];
-    let musicNotesInterval = null;
-
-    function setMusicControlsState(enabled) {
-      musicBtn.disabled = !enabled;
-      prevBtn.disabled = !enabled;
-      nextBtn.disabled = !enabled;
+    for (let i = 0; i < count; i++) {
+      const d = document.createElement("div");
+      const size = Math.random() * 3 + 1.5;
+      d.className = "particle";
+      d.style.cssText = `
+        left:${Math.random()*100}%;
+        top:${Math.random()*100}%;
+        width:${size}px;
+        height:${size}px;
+        animation-duration:${Math.random()*14+10}s;
+        animation-delay:${Math.random()*-12}s;
+      `;
+      particlesEl.appendChild(d);
     }
 
-    function updateMusicIcon() {
-      musicIcon.className = isPlaying
-        ? "fa-solid fa-pause text-sm"
-        : "fa-solid fa-play text-sm";
+    /* =====================================================
+       MOUSE GLOW
+    ===================================================== */
+    const card = document.getElementById("card");
+    const cardGlow = document.getElementById("card-glow");
+    const reduced = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+    if (!reduced) {
+      card.addEventListener("mousemove", e => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        card.style.setProperty("--my", `${e.clientY - r.top}px`);
+      });
+      card.addEventListener("mouseleave", () => {
+        card.style.setProperty("--mx", "-999px");
+        card.style.setProperty("--my", "-999px");
+      });
     }
 
-    function createMusicNote() {
-      if (!musicNotes) return;
+    /* =====================================================
+       MUSIC PLAYER
+    ===================================================== */
+    const audio       = document.getElementById("bgAudio");
+    const playBtn     = document.getElementById("playBtn");
+    const playIcon    = document.getElementById("playIcon");
+    const prevBtn     = document.getElementById("prevBtn");
+    const nextBtn     = document.getElementById("nextBtn");
+    const trackTitle  = document.getElementById("track-title");
+    const visualizer  = document.getElementById("visualizer");
+    const avatarRing  = document.getElementById("avatar-ring");
+    const musicNotes  = document.getElementById("musicNotes");
+    const srStatus    = document.getElementById("srStatus");
 
+    let playlist    = [];
+    let trackIndex  = 0;
+    let isPlaying   = false;
+    let notesTimer  = null;
+
+    function setControls(on) {
+      playBtn.disabled = !on;
+      prevBtn.disabled = !on;
+      nextBtn.disabled = !on;
+    }
+
+    function syncUI() {
+      // play icon
+      playIcon.className = isPlaying
+        ? "fa-solid fa-pause"
+        : "fa-solid fa-play";
+      playIcon.style.marginLeft = isPlaying ? "0" : "2px";
+
+      // avatar
+      if (isPlaying) {
+        avatarRing.classList.add("playing");
+      } else {
+        avatarRing.classList.remove("playing");
+      }
+
+      // visualizer
+      if (isPlaying) {
+        visualizer.classList.add("active");
+      } else {
+        visualizer.classList.remove("active");
+      }
+
+      // sr status
+      srStatus.textContent = playlist[trackIndex]
+        ? `${isPlaying ? "Memutar" : "Dijeda"}: ${playlist[trackIndex].title}`
+        : "";
+    }
+
+    /* Music Notes */
+    function spawnNote() {
       const note = document.createElement("span");
-      const symbols = ["♪", "♫", "♬", "♩", "♭"];
-
-      const startLeft = Math.random() * 64 + 18;
-      const driftX = Math.random() * 120 - 60;
-      const rotate = `${Math.random() * 50 - 25}deg`;
-      const size = `${Math.random() * 10 + 18}px`;
-
+      const symbols = ["♪","♫","♬","♩","♭"];
+      const nx = (Math.random() * 100 - 50) + "px";
+      const nr = (Math.random() * 40 - 20) + "deg";
       note.className = "music-note";
       note.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-      note.style.left = `${startLeft}%`;
-      note.style.fontSize = size;
-      note.style.setProperty("--note-x", `${driftX}px`);
-      note.style.setProperty("--note-rotate", rotate);
-
+      note.style.left  = (Math.random() * 70 + 15) + "%";
+      note.style.top   = "40%";
+      note.style.fontSize = (Math.random() * 10 + 16) + "px";
+      note.style.setProperty("--nx", nx);
+      note.style.setProperty("--nr", nr);
       musicNotes.appendChild(note);
-
-      note.addEventListener("animationend", () => {
-        note.remove();
-      });
+      note.addEventListener("animationend", () => note.remove(), { once: true });
     }
 
-    function startMusicNotes() {
-      if (!musicNotes || musicNotesInterval) return;
-
-      createMusicNote();
-      createMusicNote();
-      createMusicNote();
-
-      musicNotesInterval = setInterval(() => {
-        if (isPlaying) {
-          createMusicNote();
-        }
-      }, 300);
+    function startNotes() {
+      if (notesTimer || !isPlaying) return;
+      spawnNote(); spawnNote();
+      notesTimer = setInterval(() => { if (isPlaying) spawnNote(); }, 400);
     }
 
-    function stopMusicNotes() {
-      if (musicNotesInterval) {
-        clearInterval(musicNotesInterval);
-        musicNotesInterval = null;
-      }
-
-      setTimeout(() => {
-        if (!isPlaying && musicNotes) {
-          musicNotes.innerHTML = "";
-        }
-      }, 500);
+    function stopNotes() {
+      clearInterval(notesTimer);
+      notesTimer = null;
     }
 
-    function updateProfileSpin() {
-      if (profileSpinWrap) {
-        if (isPlaying) {
-          profileSpinWrap.classList.add("is-spinning");
-        } else {
-          profileSpinWrap.classList.remove("is-spinning");
-        }
-      }
-
-      if (isPlaying) {
-        startMusicNotes();
-      } else {
-        stopMusicNotes();
-      }
-    }
-
-    function updateMusicStatus(message) {
-      if (message) {
-        musicStatus.textContent = message;
-        return;
-      }
-
-      const currentTrack = playlist[trackIndex];
-
-      if (!currentTrack) {
-        musicStatus.textContent = "🎵 Music: Playlist not found";
-        return;
-      }
-
-      musicStatus.textContent = `🎵 ${isPlaying ? "Playing" : "Paused"}: ${currentTrack.title}`;
-    }
-
-    function loadTrack(index, autoplay = false) {
-      const currentTrack = playlist[index];
-
-      if (!currentTrack || !currentTrack.src) return;
-
-      music.src = currentTrack.src;
-      music.load();
-
+    /* Load a track */
+    function loadTrack(idx, autoplay = false) {
+      const t = playlist[idx];
+      if (!t) return;
+      audio.src = t.src;
+      audio.load();
+      trackTitle.textContent = t.title;
       isPlaying = false;
-      updateMusicIcon();
-      updateProfileSpin();
-      updateMusicStatus();
-
-      if (autoplay) {
-        playMusic();
-      }
+      syncUI();
+      stopNotes();
+      if (autoplay) playMusic();
     }
 
     async function playMusic() {
       if (!playlist.length) return;
-
       try {
-        await music.play();
+        await audio.play();
         isPlaying = true;
-      } catch (error) {
+      } catch {
         isPlaying = false;
-        updateMusicStatus("🎵 Music: Tap play to start");
+        trackTitle.textContent = "Tap play untuk mulai";
       } finally {
-        updateMusicIcon();
-        updateProfileSpin();
-        updateMusicStatus();
+        syncUI();
+        if (isPlaying) startNotes();
       }
     }
 
     function pauseMusic() {
-      music.pause();
+      audio.pause();
       isPlaying = false;
-
-      updateMusicIcon();
-      updateProfileSpin();
-      updateMusicStatus();
+      syncUI();
+      stopNotes();
     }
 
+    /* Fetch playlist */
     fetch("playlist.json")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Playlist failed to load");
-        }
-
-        return response.json();
-      })
-      .then((data) => {
-        if (!Array.isArray(data) || data.length === 0) {
-          throw new Error("Playlist is empty");
-        }
-
+      .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+      .then(data => {
+        if (!Array.isArray(data) || !data.length) throw new Error();
         playlist = data;
-        setMusicControlsState(true);
-        loadTrack(trackIndex, false);
+        setControls(true);
+        loadTrack(0, false);
       })
       .catch(() => {
-        playlist = [];
-        setMusicControlsState(false);
-        updateMusicStatus("🎵 Music: playlist.json belum tersedia");
+        setControls(false);
+        trackTitle.textContent = "Tidak tersedia";
+        srStatus.textContent   = "Musik tidak tersedia";
       });
 
-    musicBtn.addEventListener("click", () => {
-      if (isPlaying) {
-        pauseMusic();
-      } else {
-        playMusic();
-      }
-    });
+    /* Button events */
+    playBtn.addEventListener("click", () => isPlaying ? pauseMusic() : playMusic());
 
     prevBtn.addEventListener("click", () => {
       if (!playlist.length) return;
-
       trackIndex = (trackIndex - 1 + playlist.length) % playlist.length;
       loadTrack(trackIndex, true);
     });
 
     nextBtn.addEventListener("click", () => {
       if (!playlist.length) return;
-
       trackIndex = (trackIndex + 1) % playlist.length;
       loadTrack(trackIndex, true);
     });
 
-    music.addEventListener("ended", () => {
+    audio.addEventListener("ended", () => {
       if (!playlist.length) return;
-
       trackIndex = (trackIndex + 1) % playlist.length;
       loadTrack(trackIndex, true);
     });
 
-    music.addEventListener("pause", () => {
-      isPlaying = false;
-      updateMusicIcon();
-      updateProfileSpin();
-      updateMusicStatus();
-    });
-
-    music.addEventListener("play", () => {
-      isPlaying = true;
-      updateMusicIcon();
-      updateProfileSpin();
-      updateMusicStatus();
-    });
-
-    const particles = document.getElementById("particles");
-    const particleCount = window.matchMedia("(max-width: 640px)").matches ? 22 : 34;
-
-    for (let i = 0; i < particleCount; i++) {
-      const particle = document.createElement("div");
-      const size = Math.random() * 2.5 + 1.5;
-
-      particle.className = "particle animate-orbit";
-      particle.style.width = `${size}px`;
-      particle.style.height = `${size}px`;
-      particle.style.top = `${Math.random() * 100}%`;
-      particle.style.left = `${Math.random() * 100}%`;
-      particle.style.animationDuration = `${Math.random() * 45 + 28}s`;
-      particle.style.animationDelay = `${Math.random() * -30}s`;
-
-      particles.appendChild(particle);
-    }
-
-    const tiltCard = document.getElementById("tiltCard");
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (!reduceMotion) {
-      tiltCard.addEventListener("mousemove", (event) => {
-        const rect = tiltCard.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-
-        tiltCard.style.setProperty("--glow-x", `${(x / rect.width) * 100}%`);
-        tiltCard.style.setProperty("--glow-y", `${(y / rect.height) * 100}%`);
-      });
-    }
+    audio.addEventListener("play",  () => { isPlaying = true;  syncUI(); startNotes(); });
+    audio.addEventListener("pause", () => { isPlaying = false; syncUI(); stopNotes(); });
   </script>
 </body>
 </html>
