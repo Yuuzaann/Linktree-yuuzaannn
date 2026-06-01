@@ -50,7 +50,6 @@
       color: #e2e8f0;
     }
 
-    /* ---------- Background ---------- */
     #bg-gradient {
       position: fixed;
       inset: 0;
@@ -96,7 +95,6 @@
       pointer-events: none;
     }
 
-    /* ---------- Background Particles ---------- */
     #particles {
       position: fixed;
       inset: 0;
@@ -114,7 +112,6 @@
       animation: floatParticle linear infinite;
     }
 
-    /* ---------- Card ---------- */
     #card {
       position: relative;
       z-index: 10;
@@ -172,12 +169,11 @@
       transition: background 0.05s;
     }
 
-    /* ---------- Music Player ---------- */
     #music-player {
       position: absolute;
       top: 0.75rem;
       right: 0.75rem;
-      z-index: 20;
+      z-index: 80;
       display: flex;
       align-items: center;
       gap: 0.35rem;
@@ -314,15 +310,37 @@
       }
     }
 
-    /* ---------- Avatar ---------- */
+    #musicNotes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 70;
+    }
+
+    .music-note {
+      position: absolute;
+      display: inline-block;
+      font-size: 22px;
+      line-height: 1;
+      color: rgba(255, 255, 255, 0.95);
+      text-shadow:
+        0 0 10px rgba(129, 140, 248, 0.9),
+        0 0 24px rgba(168, 85, 247, 0.65),
+        0 0 42px rgba(99, 102, 241, 0.35);
+      opacity: 0;
+      user-select: none;
+      pointer-events: none;
+      will-change: transform, opacity;
+      animation: floatMusicNote 3s ease-out forwards;
+    }
+
     #avatar-wrap {
       position: relative;
       width: 7rem;
       height: 7rem;
       margin: 0 auto 1.25rem;
-      transform-origin: center center;
-      will-change: transform;
-      z-index: 4;
+      z-index: 10;
     }
 
     @media (min-width: 640px) {
@@ -330,17 +348,6 @@
         width: 8rem;
         height: 8rem;
       }
-    }
-
-    #avatar-wrap.is-spinning {
-      animation: profileSpin 10s linear infinite;
-    }
-
-    #avatar-wrap.is-spinning #avatar-inner img {
-      filter: saturate(1.15);
-      box-shadow:
-        0 0 28px rgba(129, 140, 248, 0.55),
-        0 0 60px rgba(168, 85, 247, 0.25);
     }
 
     #avatar-ring {
@@ -374,11 +381,18 @@
       position: relative;
     }
 
-    #avatar-inner img {
+    #avatarPhoto {
       width: 100%;
       height: 100%;
       object-fit: cover;
       border-radius: 9999px;
+      transform-origin: center center;
+      will-change: transform;
+    }
+
+    #avatarPhoto.is-spinning {
+      animation: profilePhotoSpin 3.2s linear infinite !important;
+      filter: saturate(1.18);
     }
 
     #status-badge {
@@ -396,7 +410,7 @@
       white-space: nowrap;
       backdrop-filter: blur(8px);
       box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-      z-index: 6;
+      z-index: 20;
     }
 
     #status-badge span {
@@ -429,39 +443,6 @@
       background: #10b981;
     }
 
-    /* ---------- Music Notes ---------- */
-    #musicNotes {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 50;
-    }
-
-    .music-note {
-      position: absolute;
-      display: inline-block;
-      font-size: 22px;
-      line-height: 1;
-      color: rgba(255, 255, 255, 0.95);
-      text-shadow:
-        0 0 10px rgba(129, 140, 248, 0.9),
-        0 0 24px rgba(168, 85, 247, 0.65),
-        0 0 42px rgba(99, 102, 241, 0.35);
-      opacity: 0;
-      user-select: none;
-      pointer-events: none;
-      will-change: transform, opacity;
-      animation: floatMusicNote 3s ease-out forwards;
-    }
-
-    @media (max-width: 768px) {
-      .music-note {
-        font-size: 20px;
-      }
-    }
-
-    /* ---------- Role Badge ---------- */
     #role-badge {
       display: inline-flex;
       align-items: center;
@@ -482,7 +463,6 @@
       color: rgba(99,102,241,0.4);
     }
 
-    /* ---------- Socials ---------- */
     .social-btn {
       display: flex;
       align-items: center;
@@ -510,7 +490,6 @@
       transform: scale(0.93);
     }
 
-    /* ---------- Divider ---------- */
     .divider {
       width: 100%;
       height: 1px;
@@ -518,7 +497,6 @@
       margin: 1.5rem 0;
     }
 
-    /* ---------- Link Cards ---------- */
     .link-card {
       display: flex;
       align-items: center;
@@ -632,7 +610,6 @@
       transform: translateX(2px);
     }
 
-    /* ---------- Footer ---------- */
     #footer {
       font-size: 11px;
       color: #334155;
@@ -640,7 +617,6 @@
       text-align: center;
     }
 
-    /* ---------- Keyframes ---------- */
     @keyframes gradientShift {
       0% {
         background-position: 0% 50%;
@@ -677,13 +653,13 @@
       }
     }
 
-    @keyframes profileSpin {
-      0% {
-        transform: rotate(0deg);
+    @keyframes profilePhotoSpin {
+      from {
+        transform: rotate(0deg) scale(1.03);
       }
 
-      100% {
-        transform: rotate(360deg);
+      to {
+        transform: rotate(360deg) scale(1.03);
       }
     }
 
@@ -749,7 +725,6 @@
       }
     }
 
-    /* ---------- Accessibility ---------- */
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -764,25 +739,19 @@
 
 <body class="min-h-[100dvh] grid place-items-center px-4 py-10">
 
-  <!-- Background -->
   <div id="bg-gradient"></div>
   <div id="bg-dot"></div>
   <div id="orb-tl"></div>
   <div id="orb-br"></div>
   <div id="particles" aria-hidden="true"></div>
 
-  <!-- Audio -->
   <audio id="bgAudio" preload="none"></audio>
 
-  <!-- Card -->
   <main style="width:min(100%,38rem);margin-inline:auto;">
     <section id="card" aria-label="Profil Yuuzaann">
       <div id="card-glow" aria-hidden="true"></div>
-
-      <!-- Music Notes -->
       <div id="musicNotes" aria-hidden="true"></div>
 
-      <!-- Music Player -->
       <div id="music-player" aria-label="Kontrol musik">
         <div id="track-info" aria-live="polite">
           <span id="track-label">Playing</span>
@@ -809,13 +778,12 @@
         </div>
       </div>
 
-      <!-- Profile -->
       <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:3rem;margin-bottom:1.75rem;">
 
         <div id="avatar-wrap">
           <div id="avatar-ring">
             <div id="avatar-inner">
-              <img src="img/foto.jpeg" alt="Foto profil Yuuzaann" />
+              <img id="avatarPhoto" src="img/foto.jpeg" alt="Foto profil Yuuzaann" />
             </div>
           </div>
 
@@ -838,27 +806,19 @@
         </p>
       </div>
 
-      <!-- Socials -->
       <nav id="socials" style="display:flex;justify-content:center;gap:.75rem;margin-bottom:1.5rem;" aria-label="Social media"></nav>
 
-      <!-- Divider -->
       <div class="divider"></div>
 
-      <!-- Links -->
       <div id="links" style="display:flex;flex-direction:column;gap:.75rem;" aria-label="Tautan utama"></div>
 
-      <!-- Footer -->
       <p id="footer">© 2026 Yuuzaann • All rights reserved</p>
 
-      <!-- Screen reader status -->
       <div class="sr-only" aria-live="polite" id="srStatus"></div>
     </section>
   </main>
 
   <script>
-    /* =====================================================
-       DATA
-    ===================================================== */
     const SOCIALS = [
       {
         label: "Twitter / X",
@@ -897,9 +857,6 @@
       }
     ];
 
-    /* =====================================================
-       BUILD SOCIALS
-    ===================================================== */
     const socialsEl = document.getElementById("socials");
 
     SOCIALS.forEach((s) => {
@@ -915,9 +872,6 @@
       socialsEl.appendChild(a);
     });
 
-    /* =====================================================
-       BUILD LINKS
-    ===================================================== */
     const linksEl = document.getElementById("links");
 
     LINKS.forEach((l) => {
@@ -947,9 +901,6 @@
       linksEl.appendChild(a);
     });
 
-    /* =====================================================
-       BACKGROUND PARTICLES
-    ===================================================== */
     const particlesEl = document.getElementById("particles");
     const count = window.matchMedia("(max-width:640px)").matches ? 22 : 32;
 
@@ -970,9 +921,6 @@
       particlesEl.appendChild(d);
     }
 
-    /* =====================================================
-       MOUSE GLOW
-    ===================================================== */
     const card = document.getElementById("card");
     const reduced = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
 
@@ -990,9 +938,6 @@
       });
     }
 
-    /* =====================================================
-       MUSIC PLAYER
-    ===================================================== */
     const audio = document.getElementById("bgAudio");
     const playBtn = document.getElementById("playBtn");
     const playIcon = document.getElementById("playIcon");
@@ -1001,7 +946,7 @@
     const trackTitle = document.getElementById("track-title");
     const visualizer = document.getElementById("visualizer");
     const avatarRing = document.getElementById("avatar-ring");
-    const avatarWrap = document.getElementById("avatar-wrap");
+    const avatarPhoto = document.getElementById("avatarPhoto");
     const musicNotes = document.getElementById("musicNotes");
     const srStatus = document.getElementById("srStatus");
 
@@ -1010,10 +955,10 @@
     let isPlaying = false;
     let notesTimer = null;
 
-    function setControls(on) {
-      playBtn.disabled = !on;
-      prevBtn.disabled = !on;
-      nextBtn.disabled = !on;
+    function setControls(enabled) {
+      playBtn.disabled = !enabled;
+      prevBtn.disabled = !enabled;
+      nextBtn.disabled = !enabled;
     }
 
     function syncUI() {
@@ -1025,11 +970,11 @@
 
       if (isPlaying) {
         avatarRing.classList.add("playing");
-        avatarWrap.classList.add("is-spinning");
+        avatarPhoto.classList.add("is-spinning");
         visualizer.classList.add("active");
       } else {
         avatarRing.classList.remove("playing");
-        avatarWrap.classList.remove("is-spinning");
+        avatarPhoto.classList.remove("is-spinning");
         visualizer.classList.remove("active");
       }
 
@@ -1044,8 +989,8 @@
       const note = document.createElement("span");
       const symbols = ["♪", "♫", "♬", "♩", "♭"];
 
-      const startLeft = Math.random() * 34 + 33;
-      const startTop = Math.random() * 8 + 28;
+      const startLeft = Math.random() * 36 + 32;
+      const startTop = Math.random() * 8 + 25;
       const driftX = Math.random() * 120 - 60;
       const rotate = `${Math.random() * 50 - 25}deg`;
       const size = `${Math.random() * 10 + 18}px`;
@@ -1092,15 +1037,15 @@
       }, 500);
     }
 
-    function loadTrack(idx, autoplay = false) {
-      const t = playlist[idx];
+    function loadTrack(index, autoplay = false) {
+      const track = playlist[index];
 
-      if (!t) return;
+      if (!track || !track.src) return;
 
-      audio.src = t.src;
+      audio.src = track.src;
       audio.load();
 
-      trackTitle.textContent = t.title;
+      trackTitle.textContent = track.title || "Unknown Track";
       isPlaying = false;
 
       syncUI();
@@ -1117,7 +1062,7 @@
       try {
         await audio.play();
         isPlaying = true;
-      } catch {
+      } catch (error) {
         isPlaying = false;
         trackTitle.textContent = "Tap play lagi";
       } finally {
@@ -1138,16 +1083,21 @@
     }
 
     fetch("playlist.json")
-      .then((r) => {
-        if (!r.ok) throw new Error();
-        return r.json();
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("playlist.json gagal dimuat");
+        }
+
+        return response.json();
       })
       .then((data) => {
-        if (!Array.isArray(data) || !data.length) throw new Error();
+        if (!Array.isArray(data) || !data.length) {
+          throw new Error("playlist kosong");
+        }
 
         playlist = data;
         setControls(true);
-        loadTrack(0, false);
+        loadTrack(trackIndex, false);
       })
       .catch(() => {
         setControls(false);
