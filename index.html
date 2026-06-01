@@ -13,22 +13,33 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <script src="https://cdn.tailwindcss.com"></script>
+
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: { poppins: ["Poppins", "sans-serif"] }
+          fontFamily: {
+            poppins: ["Poppins", "sans-serif"]
+          }
         }
       }
     };
   </script>
 
   <style>
-    :root { color-scheme: dark; }
+    :root {
+      color-scheme: dark;
+    }
 
-    *, *::before, *::after { box-sizing: border-box; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       font-family: "Poppins", sans-serif;
@@ -85,7 +96,7 @@
       pointer-events: none;
     }
 
-    /* ---------- Particles ---------- */
+    /* ---------- Background Particles ---------- */
     #particles {
       position: fixed;
       inset: 0;
@@ -121,7 +132,9 @@
     }
 
     @media (min-width: 640px) {
-      #card { padding: 2.5rem; }
+      #card {
+        padding: 2.5rem;
+      }
     }
 
     #card::before {
@@ -130,8 +143,15 @@
       inset: 0;
       border-radius: inherit;
       padding: 1px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.22), rgba(129,140,248,0.18), rgba(255,255,255,0.04));
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.22),
+        rgba(129,140,248,0.18),
+        rgba(255,255,255,0.04)
+      );
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events: none;
@@ -186,7 +206,9 @@
     }
 
     @media (min-width: 480px) {
-      #track-info { display: flex; }
+      #track-info {
+        display: flex;
+      }
     }
 
     #track-label {
@@ -226,9 +248,19 @@
       transition: color 0.2s, background 0.2s, transform 0.15s;
     }
 
-    .mp-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
-    .mp-btn:active { transform: scale(0.92); }
-    .mp-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .mp-btn:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .mp-btn:active {
+      transform: scale(0.92);
+    }
+
+    .mp-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
 
     .play-main-btn {
       width: 2.15rem;
@@ -239,7 +271,10 @@
       box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
     }
 
-    .play-main-btn:hover { background: rgba(99, 102, 241, 0.48); color: #fff; }
+    .play-main-btn:hover {
+      background: rgba(99, 102, 241, 0.48);
+      color: #fff;
+    }
 
     #visualizer {
       flex: 0 0 15px;
@@ -255,7 +290,9 @@
       transition: opacity 0.2s ease;
     }
 
-    #visualizer.active { opacity: 1; }
+    #visualizer.active {
+      opacity: 1;
+    }
 
     .vis-bar {
       width: 3px;
@@ -272,7 +309,9 @@
         gap: 0.25rem;
       }
 
-      #track-info { display: none; }
+      #track-info {
+        display: none;
+      }
     }
 
     /* ---------- Avatar ---------- */
@@ -281,11 +320,27 @@
       width: 7rem;
       height: 7rem;
       margin: 0 auto 1.25rem;
-      overflow: visible;
+      transform-origin: center center;
+      will-change: transform;
+      z-index: 4;
     }
 
     @media (min-width: 640px) {
-      #avatar-wrap { width: 8rem; height: 8rem; }
+      #avatar-wrap {
+        width: 8rem;
+        height: 8rem;
+      }
+    }
+
+    #avatar-wrap.is-spinning {
+      animation: profileSpin 10s linear infinite;
+    }
+
+    #avatar-wrap.is-spinning #avatar-inner img {
+      filter: saturate(1.15);
+      box-shadow:
+        0 0 28px rgba(129, 140, 248, 0.55),
+        0 0 60px rgba(168, 85, 247, 0.25);
     }
 
     #avatar-ring {
@@ -297,12 +352,12 @@
       background-size: 200% 200%;
       animation: ringRotate 4s linear infinite;
       transition: box-shadow 0.4s ease;
-      position: relative;
-      z-index: 3;
     }
 
     #avatar-ring.playing {
-      box-shadow: 0 0 30px rgba(99, 102, 241, 0.6), 0 0 60px rgba(139, 92, 246, 0.3);
+      box-shadow:
+        0 0 30px rgba(99, 102, 241, 0.6),
+        0 0 60px rgba(139, 92, 246, 0.3);
       animation: ringRotate 1.5s linear infinite, pulseGlow 2s ease-in-out infinite;
     }
 
@@ -319,70 +374,11 @@
       position: relative;
     }
 
-    .avatar-photo {
+    #avatar-inner img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       border-radius: 9999px;
-      transform-origin: center;
-      will-change: transform;
-    }
-
-    .avatar-photo.spinning {
-      animation: profileSpin 4.5s linear infinite;
-    }
-
-    #avatar-music-nodes {
-      position: absolute;
-      inset: -1.25rem;
-      pointer-events: none;
-      z-index: 2;
-      opacity: 0;
-      transition: opacity 0.25s ease;
-    }
-
-    #avatar-music-nodes.active {
-      opacity: 1;
-    }
-
-    .avatar-node {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 7px;
-      height: 7px;
-      border-radius: 9999px;
-      background: rgba(199, 210, 254, 0.95);
-      box-shadow:
-        0 0 10px rgba(129, 140, 248, 0.95),
-        0 0 24px rgba(168, 85, 247, 0.55);
-      transform:
-        translate(-50%, -50%)
-        rotate(var(--angle))
-        translateX(var(--radius))
-        scale(var(--scale));
-      animation: orbitNode var(--duration) linear infinite;
-    }
-
-    .avatar-node::after {
-      content: var(--symbol);
-      position: absolute;
-      left: 50%;
-      top: -1.2rem;
-      transform: translateX(-50%);
-      font-size: 12px;
-      color: rgba(224, 231, 255, 0.95);
-      text-shadow: 0 0 10px rgba(129, 140, 248, 0.9);
-    }
-
-    #avatar-initials {
-      font-size: 1.75rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      background: linear-gradient(135deg, #c7d2fe, #ddd6fe);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
 
     #status-badge {
@@ -400,10 +396,14 @@
       white-space: nowrap;
       backdrop-filter: blur(8px);
       box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-      z-index: 5;
+      z-index: 6;
     }
 
-    #status-badge span { font-size: 10px; font-weight: 500; color: #cbd5e1; }
+    #status-badge span {
+      font-size: 10px;
+      font-weight: 500;
+      color: #cbd5e1;
+    }
 
     .ping-dot {
       position: relative;
@@ -430,25 +430,38 @@
     }
 
     /* ---------- Music Notes ---------- */
-    #music-notes-layer {
+    #musicNotes {
       position: absolute;
       inset: 0;
       pointer-events: none;
-      z-index: 50;
       overflow: hidden;
+      z-index: 50;
     }
 
     .music-note {
       position: absolute;
-      font-size: 18px;
-      color: rgba(255,255,255,0.85);
-      text-shadow: 0 0 10px rgba(129,140,248,0.9), 0 0 24px rgba(168,85,247,0.5);
+      display: inline-block;
+      font-size: 22px;
+      line-height: 1;
+      color: rgba(255, 255, 255, 0.95);
+      text-shadow:
+        0 0 10px rgba(129, 140, 248, 0.9),
+        0 0 24px rgba(168, 85, 247, 0.65),
+        0 0 42px rgba(99, 102, 241, 0.35);
       opacity: 0;
+      user-select: none;
       pointer-events: none;
-      animation: floatNote 2.8s ease-out forwards;
+      will-change: transform, opacity;
+      animation: floatMusicNote 3s ease-out forwards;
     }
 
-    /* ---------- Role badge ---------- */
+    @media (max-width: 768px) {
+      .music-note {
+        font-size: 20px;
+      }
+    }
+
+    /* ---------- Role Badge ---------- */
     #role-badge {
       display: inline-flex;
       align-items: center;
@@ -465,7 +478,9 @@
       margin-bottom: 0.9rem;
     }
 
-    #role-badge .dot { color: rgba(99,102,241,0.4); }
+    #role-badge .dot {
+      color: rgba(99,102,241,0.4);
+    }
 
     /* ---------- Socials ---------- */
     .social-btn {
@@ -491,7 +506,9 @@
       box-shadow: 0 0 16px rgba(99,102,241,0.3);
     }
 
-    .social-btn:active { transform: scale(0.93); }
+    .social-btn:active {
+      transform: scale(0.93);
+    }
 
     /* ---------- Divider ---------- */
     .divider {
@@ -533,8 +550,13 @@
       box-shadow: 0 4px 24px rgba(99,102,241,0.15);
     }
 
-    .link-card:hover::after { opacity: 1; }
-    .link-card:active { transform: scale(0.99); }
+    .link-card:hover::after {
+      opacity: 1;
+    }
+
+    .link-card:active {
+      transform: scale(0.99);
+    }
 
     .link-icon {
       flex-shrink: 0;
@@ -559,11 +581,34 @@
       border-color: rgba(99,102,241,0.3);
     }
 
-    .link-text { flex: 1; position: relative; z-index: 1; min-width: 0; }
-    .link-title { font-size: 0.9375rem; font-weight: 600; color: #e2e8f0; margin-bottom: 0.15rem; transition: color 0.2s; }
-    .link-card:hover .link-title { color: #fff; }
-    .link-desc { font-size: 12px; color: #64748b; transition: color 0.2s; }
-    .link-card:hover .link-desc { color: #94a3b8; }
+    .link-text {
+      flex: 1;
+      position: relative;
+      z-index: 1;
+      min-width: 0;
+    }
+
+    .link-title {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-bottom: 0.15rem;
+      transition: color 0.2s;
+    }
+
+    .link-card:hover .link-title {
+      color: #fff;
+    }
+
+    .link-desc {
+      font-size: 12px;
+      color: #64748b;
+      transition: color 0.2s;
+    }
+
+    .link-card:hover .link-desc {
+      color: #94a3b8;
+    }
 
     .link-arrow {
       flex-shrink: 0;
@@ -588,78 +633,127 @@
     }
 
     /* ---------- Footer ---------- */
-    #footer { font-size: 11px; color: #334155; margin-top: 1.25rem; text-align: center; }
+    #footer {
+      font-size: 11px;
+      color: #334155;
+      margin-top: 1.25rem;
+      text-align: center;
+    }
 
     /* ---------- Keyframes ---------- */
     @keyframes gradientShift {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
     }
 
     @keyframes floatParticle {
-      0%, 100% { transform: translateY(0); opacity: 0.2; }
-      50%       { transform: translateY(-14px); opacity: 0.55; }
+      0%, 100% {
+        transform: translateY(0);
+        opacity: 0.2;
+      }
+
+      50% {
+        transform: translateY(-14px);
+        opacity: 0.55;
+      }
     }
 
     @keyframes ringRotate {
-      0%   { background-position: 0% 50%; }
-      100% { background-position: 200% 50%; }
+      0% {
+        background-position: 0% 50%;
+      }
+
+      100% {
+        background-position: 200% 50%;
+      }
     }
 
     @keyframes profileSpin {
-      0%   { transform: rotate(0deg) scale(1); }
-      50%  { transform: rotate(180deg) scale(1.025); }
-      100% { transform: rotate(360deg) scale(1); }
-    }
-
-    @keyframes orbitNode {
       0% {
-        transform:
-          translate(-50%, -50%)
-          rotate(var(--angle))
-          translateX(var(--radius))
-          scale(var(--scale));
-        opacity: 0.35;
+        transform: rotate(0deg);
       }
-      50% {
-        opacity: 1;
-      }
+
       100% {
-        transform:
-          translate(-50%, -50%)
-          rotate(calc(var(--angle) + 360deg))
-          translateX(var(--radius))
-          scale(var(--scale));
-        opacity: 0.35;
+        transform: rotate(360deg);
       }
     }
 
     @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 20px rgba(99,102,241,0.4), 0 0 45px rgba(139,92,246,0.2); }
-      50%       { box-shadow: 0 0 40px rgba(99,102,241,0.75), 0 0 80px rgba(139,92,246,0.4); }
+      0%, 100% {
+        box-shadow:
+          0 0 20px rgba(99,102,241,0.4),
+          0 0 45px rgba(139,92,246,0.2);
+      }
+
+      50% {
+        box-shadow:
+          0 0 40px rgba(99,102,241,0.75),
+          0 0 80px rgba(139,92,246,0.4);
+      }
     }
 
     @keyframes pingAnim {
-      0%, 100% { transform: scale(1); opacity: 0.7; }
-      50%       { transform: scale(2.2); opacity: 0; }
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+
+      50% {
+        transform: scale(2.2);
+        opacity: 0;
+      }
     }
 
-    @keyframes floatNote {
-      0%   { opacity: 0; transform: translate3d(0, 0, 0) scale(0.7) rotate(-10deg); }
-      15%  { opacity: 1; }
-      80%  { opacity: 0.8; }
-      100% { opacity: 0; transform: translate3d(var(--nx,0), -130px, 0) scale(1.3) rotate(var(--nr,15deg)); }
+    @keyframes floatMusicNote {
+      0% {
+        opacity: 0;
+        transform:
+          translate3d(0, 0, 0)
+          scale(0.75)
+          rotate(0deg);
+      }
+
+      12% {
+        opacity: 1;
+      }
+
+      70% {
+        opacity: 0.95;
+      }
+
+      100% {
+        opacity: 0;
+        transform:
+          translate3d(var(--note-x, 0px), -150px, 0)
+          scale(1.35)
+          rotate(var(--note-rotate, 15deg));
+      }
     }
 
     @keyframes visPulse {
-      0%   { height: 3px; }
-      100% { height: 16px; }
+      0% {
+        height: 3px;
+      }
+
+      100% {
+        height: 16px;
+      }
     }
 
     /* ---------- Accessibility ---------- */
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
+      *,
+      *::before,
+      *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
@@ -685,21 +779,28 @@
     <section id="card" aria-label="Profil Yuuzaann">
       <div id="card-glow" aria-hidden="true"></div>
 
+      <!-- Music Notes -->
+      <div id="musicNotes" aria-hidden="true"></div>
+
       <!-- Music Player -->
       <div id="music-player" aria-label="Kontrol musik">
         <div id="track-info" aria-live="polite">
           <span id="track-label">Playing</span>
           <span id="track-title">Memuat...</span>
         </div>
+
         <button id="prevBtn" class="mp-btn" aria-label="Track sebelumnya" disabled>
           <i class="fa-solid fa-backward-step" style="font-size:13px;"></i>
         </button>
+
         <button id="playBtn" class="mp-btn play-main-btn" aria-label="Putar / Jeda" disabled>
           <i id="playIcon" class="fa-solid fa-play" style="font-size:12px;margin-left:2px;"></i>
         </button>
+
         <button id="nextBtn" class="mp-btn" aria-label="Track berikutnya" disabled>
           <i class="fa-solid fa-forward-step" style="font-size:13px;"></i>
         </button>
+
         <div id="visualizer" aria-hidden="true">
           <div class="vis-bar" style="animation-delay:.0s;animation-duration:.55s;"></div>
           <div class="vis-bar" style="animation-delay:.1s;animation-duration:.45s;"></div>
@@ -708,18 +809,13 @@
         </div>
       </div>
 
-      <!-- Music Notes Layer -->
-      <div id="musicNotes" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:50;overflow:hidden;"></div>
-
       <!-- Profile -->
       <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:3rem;margin-bottom:1.75rem;">
 
         <div id="avatar-wrap">
-          <div id="avatar-music-nodes" aria-hidden="true"></div>
-
           <div id="avatar-ring">
             <div id="avatar-inner">
-              <img id="avatarPhoto" class="avatar-photo" src="img/foto.jpeg" alt="Foto profil Yuuzaann" />
+              <img src="img/foto.jpeg" alt="Foto profil Yuuzaann" />
             </div>
           </div>
 
@@ -729,7 +825,9 @@
           </div>
         </div>
 
-        <h1 style="font-size:1.75rem;font-weight:800;color:#fff;letter-spacing:-.03em;margin-top:1.5rem;margin-bottom:.5rem;">Yuuzaann</h1>
+        <h1 style="font-size:1.75rem;font-weight:800;color:#fff;letter-spacing:-.03em;margin-top:1.5rem;margin-bottom:.5rem;">
+          Yuuzaann
+        </h1>
 
         <div id="role-badge">
           RPL Student <span class="dot">•</span> Web Developer
@@ -762,10 +860,26 @@
        DATA
     ===================================================== */
     const SOCIALS = [
-      { label: "Twitter / X",  href: "https://x.com/Yuuzaan_",                      icon: "fa-brands fa-x-twitter" },
-      { label: "Instagram",    href: "https://www.instagram.com/sadutzz_",           icon: "fa-brands fa-instagram" },
-      { label: "TikTok",       href: "https://vm.tiktok.com/ZS9JAY62A/",             icon: "fa-brands fa-tiktok" },
-      { label: "GitHub",       href: "https://github.com/Yuuzaann",                  icon: "fa-brands fa-github" },
+      {
+        label: "Twitter / X",
+        href: "https://x.com/Yuuzaan_",
+        icon: "fa-brands fa-x-twitter"
+      },
+      {
+        label: "Instagram",
+        href: "https://www.instagram.com/sadutzz_",
+        icon: "fa-brands fa-instagram"
+      },
+      {
+        label: "TikTok",
+        href: "https://vm.tiktok.com/ZS9JAY62A/",
+        icon: "fa-brands fa-tiktok"
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/Yuuzaann",
+        icon: "fa-brands fa-github"
+      }
     ];
 
     const LINKS = [
@@ -780,21 +894,24 @@
         icon: "fa-brands fa-discord",
         title: "Join My Discord",
         desc: "Gabung ke komunitas dan ngobrol bareng"
-      },
+      }
     ];
 
     /* =====================================================
        BUILD SOCIALS
     ===================================================== */
     const socialsEl = document.getElementById("socials");
-    SOCIALS.forEach(s => {
+
+    SOCIALS.forEach((s) => {
       const a = document.createElement("a");
+
       a.href = s.href;
       a.target = "_blank";
       a.rel = "noopener noreferrer";
       a.className = "social-btn";
       a.setAttribute("aria-label", s.label);
       a.innerHTML = `<i class="${s.icon}" aria-hidden="true"></i>`;
+
       socialsEl.appendChild(a);
     });
 
@@ -802,30 +919,36 @@
        BUILD LINKS
     ===================================================== */
     const linksEl = document.getElementById("links");
-    LINKS.forEach(l => {
+
+    LINKS.forEach((l) => {
       const a = document.createElement("a");
+
       a.href = l.href;
       a.target = "_blank";
       a.rel = "noopener noreferrer";
       a.className = "link-card";
-      a.setAttribute("data-testid", `link-${l.title.toLowerCase().replace(/\s+/g,"-")}`);
+      a.setAttribute("data-testid", `link-${l.title.toLowerCase().replace(/\s+/g, "-")}`);
+
       a.innerHTML = `
         <div class="link-icon">
           <i class="${l.icon}" aria-hidden="true"></i>
         </div>
+
         <div class="link-text">
           <div class="link-title">${l.title}</div>
           <div class="link-desc">${l.desc}</div>
         </div>
+
         <div class="link-arrow">
           <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
         </div>
       `;
+
       linksEl.appendChild(a);
     });
 
     /* =====================================================
-       PARTICLES
+       BACKGROUND PARTICLES
     ===================================================== */
     const particlesEl = document.getElementById("particles");
     const count = window.matchMedia("(max-width:640px)").matches ? 22 : 32;
@@ -833,15 +956,17 @@
     for (let i = 0; i < count; i++) {
       const d = document.createElement("div");
       const size = Math.random() * 3 + 1.5;
+
       d.className = "particle";
       d.style.cssText = `
-        left:${Math.random()*100}%;
-        top:${Math.random()*100}%;
+        left:${Math.random() * 100}%;
+        top:${Math.random() * 100}%;
         width:${size}px;
         height:${size}px;
-        animation-duration:${Math.random()*14+10}s;
-        animation-delay:${Math.random()*-12}s;
+        animation-duration:${Math.random() * 14 + 10}s;
+        animation-delay:${Math.random() * -12}s;
       `;
+
       particlesEl.appendChild(d);
     }
 
@@ -852,8 +977,9 @@
     const reduced = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
 
     if (!reduced) {
-      card.addEventListener("mousemove", e => {
+      card.addEventListener("mousemove", (e) => {
         const r = card.getBoundingClientRect();
+
         card.style.setProperty("--mx", `${e.clientX - r.left}px`);
         card.style.setProperty("--my", `${e.clientY - r.top}px`);
       });
@@ -867,56 +993,28 @@
     /* =====================================================
        MUSIC PLAYER
     ===================================================== */
-    const audio       = document.getElementById("bgAudio");
-    const playBtn     = document.getElementById("playBtn");
-    const playIcon    = document.getElementById("playIcon");
-    const prevBtn     = document.getElementById("prevBtn");
-    const nextBtn     = document.getElementById("nextBtn");
-    const trackTitle  = document.getElementById("track-title");
-    const visualizer  = document.getElementById("visualizer");
-    const avatarRing  = document.getElementById("avatar-ring");
-    const avatarPhoto = document.getElementById("avatarPhoto");
-    const musicNotes  = document.getElementById("musicNotes");
-    const avatarNodes = document.getElementById("avatar-music-nodes");
-    const srStatus    = document.getElementById("srStatus");
+    const audio = document.getElementById("bgAudio");
+    const playBtn = document.getElementById("playBtn");
+    const playIcon = document.getElementById("playIcon");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const trackTitle = document.getElementById("track-title");
+    const visualizer = document.getElementById("visualizer");
+    const avatarRing = document.getElementById("avatar-ring");
+    const avatarWrap = document.getElementById("avatar-wrap");
+    const musicNotes = document.getElementById("musicNotes");
+    const srStatus = document.getElementById("srStatus");
 
-    let playlist    = [];
-    let trackIndex  = 0;
-    let isPlaying   = false;
-    let notesTimer  = null;
+    let playlist = [];
+    let trackIndex = 0;
+    let isPlaying = false;
+    let notesTimer = null;
 
     function setControls(on) {
       playBtn.disabled = !on;
       prevBtn.disabled = !on;
       nextBtn.disabled = !on;
     }
-
-    function buildAvatarNodes() {
-      const symbols = ["♪", "♫", "♬", "♩"];
-      const total = window.matchMedia("(max-width:640px)").matches ? 10 : 14;
-
-      avatarNodes.innerHTML = "";
-
-      for (let i = 0; i < total; i++) {
-        const node = document.createElement("span");
-        const angle = Math.round((360 / total) * i);
-        const radius = window.matchMedia("(max-width:640px)").matches
-          ? Math.random() * 14 + 58
-          : Math.random() * 18 + 68;
-
-        node.className = "avatar-node";
-        node.style.setProperty("--angle", `${angle}deg`);
-        node.style.setProperty("--radius", `${radius}px`);
-        node.style.setProperty("--scale", `${Math.random() * 0.45 + 0.75}`);
-        node.style.setProperty("--duration", `${Math.random() * 3 + 5}s`);
-        node.style.setProperty("--symbol", `"${symbols[i % symbols.length]}"`);
-        node.style.animationDelay = `${Math.random() * -5}s`;
-
-        avatarNodes.appendChild(node);
-      }
-    }
-
-    buildAvatarNodes();
 
     function syncUI() {
       playIcon.className = isPlaying
@@ -927,13 +1025,11 @@
 
       if (isPlaying) {
         avatarRing.classList.add("playing");
-        avatarPhoto.classList.add("spinning");
-        avatarNodes.classList.add("active");
+        avatarWrap.classList.add("is-spinning");
         visualizer.classList.add("active");
       } else {
         avatarRing.classList.remove("playing");
-        avatarPhoto.classList.remove("spinning");
-        avatarNodes.classList.remove("active");
+        avatarWrap.classList.remove("is-spinning");
         visualizer.classList.remove("active");
       }
 
@@ -942,53 +1038,77 @@
         : "";
     }
 
-    /* Music Notes */
-    function spawnNote() {
+    function createMusicNote() {
+      if (!musicNotes) return;
+
       const note = document.createElement("span");
-      const symbols = ["♪","♫","♬","♩","♭"];
-      const nx = (Math.random() * 100 - 50) + "px";
-      const nr = (Math.random() * 40 - 20) + "deg";
+      const symbols = ["♪", "♫", "♬", "♩", "♭"];
+
+      const startLeft = Math.random() * 34 + 33;
+      const startTop = Math.random() * 8 + 28;
+      const driftX = Math.random() * 120 - 60;
+      const rotate = `${Math.random() * 50 - 25}deg`;
+      const size = `${Math.random() * 10 + 18}px`;
 
       note.className = "music-note";
       note.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-      note.style.left  = (Math.random() * 70 + 15) + "%";
-      note.style.top   = "40%";
-      note.style.fontSize = (Math.random() * 10 + 16) + "px";
-      note.style.setProperty("--nx", nx);
-      note.style.setProperty("--nr", nr);
+      note.style.left = `${startLeft}%`;
+      note.style.top = `${startTop}%`;
+      note.style.fontSize = size;
+      note.style.setProperty("--note-x", `${driftX}px`);
+      note.style.setProperty("--note-rotate", rotate);
 
       musicNotes.appendChild(note);
-      note.addEventListener("animationend", () => note.remove(), { once: true });
+
+      note.addEventListener("animationend", () => {
+        note.remove();
+      }, { once: true });
     }
 
-    function startNotes() {
-      if (notesTimer || !isPlaying) return;
-      spawnNote();
-      spawnNote();
+    function startMusicNotes() {
+      if (!musicNotes || notesTimer) return;
+
+      createMusicNote();
+      createMusicNote();
+      createMusicNote();
 
       notesTimer = setInterval(() => {
-        if (isPlaying) spawnNote();
-      }, 400);
+        if (isPlaying) {
+          createMusicNote();
+        }
+      }, 300);
     }
 
-    function stopNotes() {
-      clearInterval(notesTimer);
-      notesTimer = null;
+    function stopMusicNotes() {
+      if (notesTimer) {
+        clearInterval(notesTimer);
+        notesTimer = null;
+      }
+
+      setTimeout(() => {
+        if (!isPlaying && musicNotes) {
+          musicNotes.innerHTML = "";
+        }
+      }, 500);
     }
 
-    /* Load a track */
     function loadTrack(idx, autoplay = false) {
       const t = playlist[idx];
+
       if (!t) return;
 
       audio.src = t.src;
       audio.load();
+
       trackTitle.textContent = t.title;
       isPlaying = false;
-      syncUI();
-      stopNotes();
 
-      if (autoplay) playMusic();
+      syncUI();
+      stopMusicNotes();
+
+      if (autoplay) {
+        playMusic();
+      }
     }
 
     async function playMusic() {
@@ -999,27 +1119,30 @@
         isPlaying = true;
       } catch {
         isPlaying = false;
-        trackTitle.textContent = "";
+        trackTitle.textContent = "Tap play lagi";
       } finally {
         syncUI();
-        if (isPlaying) startNotes();
+
+        if (isPlaying) {
+          startMusicNotes();
+        }
       }
     }
 
     function pauseMusic() {
       audio.pause();
       isPlaying = false;
+
       syncUI();
-      stopNotes();
+      stopMusicNotes();
     }
 
-    /* Fetch playlist */
     fetch("playlist.json")
-      .then(r => {
+      .then((r) => {
         if (!r.ok) throw new Error();
         return r.json();
       })
-      .then(data => {
+      .then((data) => {
         if (!Array.isArray(data) || !data.length) throw new Error();
 
         playlist = data;
@@ -1029,43 +1152,49 @@
       .catch(() => {
         setControls(false);
         trackTitle.textContent = "Tidak tersedia";
-        srStatus.textContent   = "Musik tidak tersedia";
+        srStatus.textContent = "Musik tidak tersedia";
       });
 
-    /* Button events */
-    playBtn.addEventListener("click", () => isPlaying ? pauseMusic() : playMusic());
+    playBtn.addEventListener("click", () => {
+      if (isPlaying) {
+        pauseMusic();
+      } else {
+        playMusic();
+      }
+    });
 
     prevBtn.addEventListener("click", () => {
       if (!playlist.length) return;
+
       trackIndex = (trackIndex - 1 + playlist.length) % playlist.length;
       loadTrack(trackIndex, true);
     });
 
     nextBtn.addEventListener("click", () => {
       if (!playlist.length) return;
+
       trackIndex = (trackIndex + 1) % playlist.length;
       loadTrack(trackIndex, true);
     });
 
     audio.addEventListener("ended", () => {
       if (!playlist.length) return;
+
       trackIndex = (trackIndex + 1) % playlist.length;
       loadTrack(trackIndex, true);
     });
 
-    audio.addEventListener("play",  () => {
+    audio.addEventListener("play", () => {
       isPlaying = true;
       syncUI();
-      startNotes();
+      startMusicNotes();
     });
 
     audio.addEventListener("pause", () => {
       isPlaying = false;
       syncUI();
-      stopNotes();
+      stopMusicNotes();
     });
-
-    window.addEventListener("resize", buildAvatarNodes);
   </script>
 </body>
 </html>
