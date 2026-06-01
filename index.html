@@ -124,7 +124,6 @@
       #card { padding: 2.5rem; }
     }
 
-    /* glass border sheen */
     #card::before {
       content: "";
       position: absolute;
@@ -139,7 +138,6 @@
       z-index: 1;
     }
 
-    /* mouse-follow glow overlay */
     #card-glow {
       position: absolute;
       inset: 0;
@@ -243,7 +241,6 @@
 
     .play-main-btn:hover { background: rgba(99, 102, 241, 0.48); color: #fff; }
 
-    /* Visualizer bars - width is reserved so layout does not jump when music plays */
     #visualizer {
       flex: 0 0 15px;
       width: 15px;
@@ -284,6 +281,7 @@
       width: 7rem;
       height: 7rem;
       margin: 0 auto 1.25rem;
+      overflow: visible;
     }
 
     @media (min-width: 640px) {
@@ -299,6 +297,8 @@
       background-size: 200% 200%;
       animation: ringRotate 4s linear infinite;
       transition: box-shadow 0.4s ease;
+      position: relative;
+      z-index: 3;
     }
 
     #avatar-ring.playing {
@@ -319,6 +319,62 @@
       position: relative;
     }
 
+    .avatar-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 9999px;
+      transform-origin: center;
+      will-change: transform;
+    }
+
+    .avatar-photo.spinning {
+      animation: profileSpin 4.5s linear infinite;
+    }
+
+    #avatar-music-nodes {
+      position: absolute;
+      inset: -1.25rem;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    #avatar-music-nodes.active {
+      opacity: 1;
+    }
+
+    .avatar-node {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 7px;
+      height: 7px;
+      border-radius: 9999px;
+      background: rgba(199, 210, 254, 0.95);
+      box-shadow:
+        0 0 10px rgba(129, 140, 248, 0.95),
+        0 0 24px rgba(168, 85, 247, 0.55);
+      transform:
+        translate(-50%, -50%)
+        rotate(var(--angle))
+        translateX(var(--radius))
+        scale(var(--scale));
+      animation: orbitNode var(--duration) linear infinite;
+    }
+
+    .avatar-node::after {
+      content: var(--symbol);
+      position: absolute;
+      left: 50%;
+      top: -1.2rem;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: rgba(224, 231, 255, 0.95);
+      text-shadow: 0 0 10px rgba(129, 140, 248, 0.9);
+    }
+
     #avatar-initials {
       font-size: 1.75rem;
       font-weight: 700;
@@ -328,10 +384,6 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-
-    /* profile photo override — if you have foto.jpeg, set it here */
-    /* #avatar-inner { background-image: url('img/foto.jpeg'); background-size: cover; background-position: center; } */
-    /* #avatar-initials { display: none; } */
 
     #status-badge {
       position: absolute;
@@ -348,6 +400,7 @@
       white-space: nowrap;
       backdrop-filter: blur(8px);
       box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      z-index: 5;
     }
 
     #status-badge span { font-size: 10px; font-weight: 500; color: #cbd5e1; }
@@ -554,6 +607,34 @@
       100% { background-position: 200% 50%; }
     }
 
+    @keyframes profileSpin {
+      0%   { transform: rotate(0deg) scale(1); }
+      50%  { transform: rotate(180deg) scale(1.025); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    @keyframes orbitNode {
+      0% {
+        transform:
+          translate(-50%, -50%)
+          rotate(var(--angle))
+          translateX(var(--radius))
+          scale(var(--scale));
+        opacity: 0.35;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform:
+          translate(-50%, -50%)
+          rotate(calc(var(--angle) + 360deg))
+          translateX(var(--radius))
+          scale(var(--scale));
+        opacity: 0.35;
+      }
+    }
+
     @keyframes pulseGlow {
       0%, 100% { box-shadow: 0 0 20px rgba(99,102,241,0.4), 0 0 45px rgba(139,92,246,0.2); }
       50%       { box-shadow: 0 0 40px rgba(99,102,241,0.75), 0 0 80px rgba(139,92,246,0.4); }
@@ -634,11 +715,14 @@
       <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:3rem;margin-bottom:1.75rem;">
 
         <div id="avatar-wrap">
+          <div id="avatar-music-nodes" aria-hidden="true"></div>
+
           <div id="avatar-ring">
             <div id="avatar-inner">
-              <img src="img/foto.jpeg" alt="Foto profil Yuuzaann" style="width:100%;height:100%;object-fit:cover;border-radius:9999px;" />
+              <img id="avatarPhoto" class="avatar-photo" src="img/foto.jpeg" alt="Foto profil Yuuzaann" />
             </div>
           </div>
+
           <div id="status-badge">
             <div class="ping-dot" aria-hidden="true"></div>
             <span>Currently Coding</span>
@@ -697,7 +781,6 @@
         title: "Join My Discord",
         desc: "Gabung ke komunitas dan ngobrol bareng"
       },
-
     ];
 
     /* =====================================================
@@ -766,7 +849,6 @@
        MOUSE GLOW
     ===================================================== */
     const card = document.getElementById("card");
-    const cardGlow = document.getElementById("card-glow");
     const reduced = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
 
     if (!reduced) {
@@ -775,6 +857,7 @@
         card.style.setProperty("--mx", `${e.clientX - r.left}px`);
         card.style.setProperty("--my", `${e.clientY - r.top}px`);
       });
+
       card.addEventListener("mouseleave", () => {
         card.style.setProperty("--mx", "-999px");
         card.style.setProperty("--my", "-999px");
@@ -792,7 +875,9 @@
     const trackTitle  = document.getElementById("track-title");
     const visualizer  = document.getElementById("visualizer");
     const avatarRing  = document.getElementById("avatar-ring");
+    const avatarPhoto = document.getElementById("avatarPhoto");
     const musicNotes  = document.getElementById("musicNotes");
+    const avatarNodes = document.getElementById("avatar-music-nodes");
     const srStatus    = document.getElementById("srStatus");
 
     let playlist    = [];
@@ -806,28 +891,52 @@
       nextBtn.disabled = !on;
     }
 
+    function buildAvatarNodes() {
+      const symbols = ["♪", "♫", "♬", "♩"];
+      const total = window.matchMedia("(max-width:640px)").matches ? 10 : 14;
+
+      avatarNodes.innerHTML = "";
+
+      for (let i = 0; i < total; i++) {
+        const node = document.createElement("span");
+        const angle = Math.round((360 / total) * i);
+        const radius = window.matchMedia("(max-width:640px)").matches
+          ? Math.random() * 14 + 58
+          : Math.random() * 18 + 68;
+
+        node.className = "avatar-node";
+        node.style.setProperty("--angle", `${angle}deg`);
+        node.style.setProperty("--radius", `${radius}px`);
+        node.style.setProperty("--scale", `${Math.random() * 0.45 + 0.75}`);
+        node.style.setProperty("--duration", `${Math.random() * 3 + 5}s`);
+        node.style.setProperty("--symbol", `"${symbols[i % symbols.length]}"`);
+        node.style.animationDelay = `${Math.random() * -5}s`;
+
+        avatarNodes.appendChild(node);
+      }
+    }
+
+    buildAvatarNodes();
+
     function syncUI() {
-      // play icon
       playIcon.className = isPlaying
         ? "fa-solid fa-pause"
         : "fa-solid fa-play";
+
       playIcon.style.marginLeft = isPlaying ? "0" : "2px";
 
-      // avatar
       if (isPlaying) {
         avatarRing.classList.add("playing");
-      } else {
-        avatarRing.classList.remove("playing");
-      }
-
-      // visualizer
-      if (isPlaying) {
+        avatarPhoto.classList.add("spinning");
+        avatarNodes.classList.add("active");
         visualizer.classList.add("active");
       } else {
+        avatarRing.classList.remove("playing");
+        avatarPhoto.classList.remove("spinning");
+        avatarNodes.classList.remove("active");
         visualizer.classList.remove("active");
       }
 
-      // sr status
       srStatus.textContent = playlist[trackIndex]
         ? `${isPlaying ? "Memutar" : "Dijeda"}: ${playlist[trackIndex].title}`
         : "";
@@ -839,6 +948,7 @@
       const symbols = ["♪","♫","♬","♩","♭"];
       const nx = (Math.random() * 100 - 50) + "px";
       const nr = (Math.random() * 40 - 20) + "deg";
+
       note.className = "music-note";
       note.textContent = symbols[Math.floor(Math.random() * symbols.length)];
       note.style.left  = (Math.random() * 70 + 15) + "%";
@@ -846,14 +956,19 @@
       note.style.fontSize = (Math.random() * 10 + 16) + "px";
       note.style.setProperty("--nx", nx);
       note.style.setProperty("--nr", nr);
+
       musicNotes.appendChild(note);
       note.addEventListener("animationend", () => note.remove(), { once: true });
     }
 
     function startNotes() {
       if (notesTimer || !isPlaying) return;
-      spawnNote(); spawnNote();
-      notesTimer = setInterval(() => { if (isPlaying) spawnNote(); }, 400);
+      spawnNote();
+      spawnNote();
+
+      notesTimer = setInterval(() => {
+        if (isPlaying) spawnNote();
+      }, 400);
     }
 
     function stopNotes() {
@@ -865,17 +980,20 @@
     function loadTrack(idx, autoplay = false) {
       const t = playlist[idx];
       if (!t) return;
+
       audio.src = t.src;
       audio.load();
       trackTitle.textContent = t.title;
       isPlaying = false;
       syncUI();
       stopNotes();
+
       if (autoplay) playMusic();
     }
 
     async function playMusic() {
       if (!playlist.length) return;
+
       try {
         await audio.play();
         isPlaying = true;
@@ -897,9 +1015,13 @@
 
     /* Fetch playlist */
     fetch("playlist.json")
-      .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+      .then(r => {
+        if (!r.ok) throw new Error();
+        return r.json();
+      })
       .then(data => {
         if (!Array.isArray(data) || !data.length) throw new Error();
+
         playlist = data;
         setControls(true);
         loadTrack(0, false);
@@ -931,8 +1053,19 @@
       loadTrack(trackIndex, true);
     });
 
-    audio.addEventListener("play",  () => { isPlaying = true;  syncUI(); startNotes(); });
-    audio.addEventListener("pause", () => { isPlaying = false; syncUI(); stopNotes(); });
+    audio.addEventListener("play",  () => {
+      isPlaying = true;
+      syncUI();
+      startNotes();
+    });
+
+    audio.addEventListener("pause", () => {
+      isPlaying = false;
+      syncUI();
+      stopNotes();
+    });
+
+    window.addEventListener("resize", buildAvatarNodes);
   </script>
 </body>
 </html>
