@@ -14,12 +14,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- GoatCounter Analytics -->
-  <script
-    data-goatcounter="https://yuuzaann.goatcounter.com/count"
-    async
-    src="//gc.zgo.at/count.js">
+  <script>
+    window.goatcounter = {
+      endpoint: "https://yuuzaann.goatcounter.com/count",
+      path: function () {
+        return "/Lnktr.ee.yuuzan/";
+      },
+      title: function () {
+        return document.title;
+      }
+    };
   </script>
+
+  <script async src="https://gc.zgo.at/count.js"></script>
 
   <script>
     tailwind.config = {
@@ -1202,25 +1209,29 @@
     function loadGoatCounterViews() {
       if (!viewsCountEl) return;
 
-      const counterUrl = "https://yuuzaann.goatcounter.com/counter/TOTAL.json";
+      const counterUrl = "https://yuuzaann.goatcounter.com/counter/%2FLnktr.ee.yuuzan%2F.json";
 
       fetch(counterUrl, { cache: "no-store" })
         .then((response) => {
           if (!response.ok) {
-            throw new Error("GoatCounter view counter belum aktif");
+            throw new Error("GoatCounter counter failed");
           }
 
           return response.json();
         })
         .then((data) => {
-          viewsCountEl.textContent = data?.count || "0";
+          const count = Number(data?.count || 0);
+          const unique = Number(data?.count_unique || 0);
+          const finalCount = count > 0 ? count : unique;
+
+          viewsCountEl.textContent = finalCount.toLocaleString("id-ID");
         })
         .catch(() => {
           viewsCountEl.textContent = "Tracking";
         });
     }
 
-    loadGoatCounterViews();
+    setTimeout(loadGoatCounterViews, 1500);
   </script>
 </body>
 </html>
