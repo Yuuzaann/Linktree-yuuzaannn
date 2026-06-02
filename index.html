@@ -827,6 +827,87 @@
       }
     }
 
+
+    /* =========================
+       MOBILE ONLY MUSIC PLAYER
+       Desktop tidak berubah
+    ========================= */
+    @media (max-width: 639px) {
+      #music-player {
+        top: 0.65rem;
+        right: 0.65rem;
+        min-height: 2.35rem;
+        max-width: calc(100% - 1.3rem);
+        padding: 0.32rem 0.42rem;
+        gap: 0.22rem;
+        border-radius: 0.9rem;
+      }
+
+      #track-info {
+        display: flex;
+        width: 5.8rem;
+        margin-right: 0.05rem;
+      }
+
+      #track-label {
+        font-size: 6.5px;
+        letter-spacing: 0.14em;
+        margin-bottom: 0.18rem;
+      }
+
+      #track-title {
+        font-size: 8.5px;
+        line-height: 1.15;
+        max-width: 100%;
+      }
+
+      .mp-btn {
+        width: 1.3rem;
+        height: 1.3rem;
+      }
+
+      .mp-btn i {
+        font-size: 10px !important;
+      }
+
+      .play-main-btn {
+        width: 1.8rem;
+        height: 1.8rem;
+        margin-inline: 0.02rem;
+      }
+
+      #playIcon {
+        font-size: 10px !important;
+      }
+
+      #visualizer {
+        display: none;
+      }
+    }
+
+    /* HP kecil: title disembunyikan biar tetap rapi */
+    @media (max-width: 390px) {
+      #track-info {
+        display: none;
+      }
+
+      #music-player {
+        min-height: 2.25rem;
+        padding: 0.32rem 0.38rem;
+        gap: 0.18rem;
+      }
+
+      .mp-btn {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+
+      .play-main-btn {
+        width: 1.75rem;
+        height: 1.75rem;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
